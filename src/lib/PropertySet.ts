@@ -1,0 +1,1 @@
+export class PropertySet<T> extends Set<T> {}

@@ -1,0 +1,1 @@
+export class ClassSet<T> extends Set<T>{}

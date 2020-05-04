@@ -1,0 +1,1 @@
+export class MethodSet<T> extends Set<T>{}

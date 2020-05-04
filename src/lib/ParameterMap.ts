@@ -1,0 +1,1 @@
+export class ParameterMap<K, V> extends Map<K, V>{}

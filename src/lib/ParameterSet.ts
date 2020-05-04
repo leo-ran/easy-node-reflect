@@ -1,0 +1,1 @@
+export class ParameterSet<T> extends Set<T> {}
