@@ -76,6 +76,7 @@
   "typedocOptions": {
     "mode": "file",
     "out": "docs",
-    "includeVersion": true
+    "includeVersion": true,
+    "excludeProtected": true
   }
 }
