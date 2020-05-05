@@ -7,7 +7,6 @@ import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {BaseConstructor} from "../interface";
-import Base = Mocha.reporters.Base;
 
 /**
  * 类反射
@@ -65,6 +64,12 @@ export class ClassReflect<T extends BaseConstructor> {
     }
     return this._superClass;
   }
+
+  /**
+   * 运行时类型
+   */
+  public runtimeType = ClassReflect;
+
 
   /**
    * 解析元数据
@@ -128,6 +133,7 @@ export class ClassReflect<T extends BaseConstructor> {
     }
   }
 
+
   /**
    * 解析类的静态成员
    * @param classReflect
@@ -159,9 +165,4 @@ export class ClassReflect<T extends BaseConstructor> {
       })
     }
   }
-
-  /**
-   * 运行时类型
-   */
-  public runtimeType = ClassReflect;
 }

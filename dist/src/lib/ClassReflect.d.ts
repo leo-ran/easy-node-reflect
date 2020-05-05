@@ -36,6 +36,10 @@ export declare class ClassReflect<T extends BaseConstructor> {
      */
     get superClass(): any;
     /**
+     * 运行时类型
+     */
+    runtimeType: typeof ClassReflect;
+    /**
      * 解析元数据
      * @param classReflect
      */
@@ -50,8 +54,4 @@ export declare class ClassReflect<T extends BaseConstructor> {
      * @param classReflect
      */
     static parseStaticMembers<T extends BaseConstructor>(classReflect: ClassReflect<T>): void;
-    /**
-     * 运行时类型
-     */
-    runtimeType: typeof ClassReflect;
 }
