@@ -1,6 +1,6 @@
 {
   "name": "@easy-node/reflect",
-  "version": "0.0.1",
+  "version": "0.0.1-dev.1",
   "main": "./dist/index.js",
   "license": "MIT",
   "keywords": [
@@ -19,7 +19,6 @@
   "dependencies": {
     "@types/node": "^13.1.1",
     "reflect-metadata": "^0.1.13",
-    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.4"
   },
   "devDependencies": {
