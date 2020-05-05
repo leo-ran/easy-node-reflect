@@ -4,4 +4,5 @@ export interface DecoratorFactory<P extends any[], D extends ClassDecorator | Me
 }
 export interface BaseConstructor {
     new (...args: any[]): any;
+    __proto__?: BaseConstructor;
 }

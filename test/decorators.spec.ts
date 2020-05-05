@@ -86,6 +86,16 @@ describe("AbstractClassDecorator", () => {
     classReflect.metadata.map((metadata) => assert.instanceOf(metadata, InstanceReflect));
   });
 
+
+  class B {
+    constructor() {}
+  }
+
+  class A extends B{}
+
+
+
   // iDebuglog(classReflect.staticMembers, module, "staticMembers");
   // iDebuglog(classReflect.instanceMembers, module, "instanceMembers");
+  iDebuglog(classReflect.superClass, module);
 });

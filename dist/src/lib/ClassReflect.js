@@ -8,6 +8,9 @@ const ClassSet_1 = require("./ClassSet");
 const AbstractMethodDecorator_1 = require("./AbstractMethodDecorator");
 const AbstractPropertyDecorator_1 = require("./AbstractPropertyDecorator");
 const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
+/**
+ * 类反射
+ */
 class ClassReflect {
     constructor(_target) {
         this._target = _target;
@@ -34,12 +37,32 @@ class ClassReflect {
         // 解析静态成员装饰器
         ClassReflect.parseStaticMembers(this);
     }
+    /**
+     * 获取 `ClassReflect` 的目标
+     */
     getTarget() {
         return this._target.prototype;
     }
+    /**
+     * target 实例化
+     * @param positionalArguments
+     */
     newInstance(positionalArguments) {
-        return Reflect.construct(this._target, positionalArguments);
+        return new InstanceReflect_1.InstanceReflect(Reflect.construct(this._target, positionalArguments));
     }
+    /**
+     * 父类反射
+     */
+    get superClass() {
+        if (!this._superClass && this._target.__proto__) {
+            this._superClass = new ClassReflect(this._target.__proto__);
+        }
+        return this._superClass;
+    }
+    /**
+     * 解析元数据
+     * @param classReflect
+     */
     static parseMetadata(classReflect) {
         const classSet = AbstractClassDecorator_1.AbstractClassDecorator.getMetadata(classReflect._target);
         if (classSet instanceof ClassSet_1.ClassSet) {
@@ -48,6 +71,10 @@ class ClassReflect {
             });
         }
     }
+    /**
+     * 解析类的 实例成员
+     * @param classReflect
+     */
     static parseInstanceMembers(classReflect) {
         const target = classReflect.getTarget();
         const methodKeys = AbstractMethodDecorator_1.AbstractMethodDecorator.getPropertyKeys(target);
@@ -79,6 +106,10 @@ class ClassReflect {
             });
         }
     }
+    /**
+     * 解析类的静态成员
+     * @param classReflect
+     */
     static parseStaticMembers(classReflect) {
         const methodKeys = AbstractMethodDecorator_1.AbstractMethodDecorator.getPropertyKeys(classReflect._target);
         const propertyKeys = AbstractPropertyDecorator_1.AbstractPropertyDecorator.getPropertyKeys(classReflect._target);

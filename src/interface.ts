@@ -9,4 +9,5 @@ export interface DecoratorFactory<
 
 export interface BaseConstructor {
   new (...args: any[]): any;
+  __proto__?: BaseConstructor;
 }
