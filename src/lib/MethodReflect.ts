@@ -41,15 +41,17 @@ export class MethodReflect<R extends Function = any> {
     public propertyKey: string | symbol,
     public isStatic: boolean = false,
   ) {
-    MethodReflect.parseParameters(this);
-    MethodReflect.parseReturnType(this);
     // @ts-ignore
     const target =  this.isStatic ? this.parent._target : this.getTarget();
+    if (!target) return;
+    MethodReflect.parseParameters(this);
+    MethodReflect.parseReturnType(this);
     const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     if (descriptor) {
       this.isGetter = typeof descriptor.get === "function";
       this.isSetter = typeof descriptor.set === "function";
     }
+
   }
 
   public getTarget() {
@@ -80,6 +82,7 @@ export class MethodReflect<R extends Function = any> {
         target,
         propertyKey,
       );
+
     } else {
       // 构造函数 不需要 propertyKey
       // 构造函数  target 不能用 `prototype`
@@ -88,7 +91,6 @@ export class MethodReflect<R extends Function = any> {
         // @ts-ignore
         methodReflect.parent._target,
       );
-      // iDebuglog(paramTypes, module, 'paramTypes')
     }
     if (paramTypes) {
       paramTypes.map((type, index) => {

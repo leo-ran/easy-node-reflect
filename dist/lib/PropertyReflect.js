@@ -37,6 +37,8 @@ class PropertyReflect {
     static parseType(propertyReflect) {
         // @ts-ignore
         const target = propertyReflect.isStatic ? propertyReflect.parent._target : propertyReflect.getTarget();
+        if (!target)
+            return;
         const type = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.Type, target, propertyReflect.propertyKey);
         if (type) {
             propertyReflect.type = type;

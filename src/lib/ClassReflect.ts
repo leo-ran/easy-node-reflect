@@ -7,6 +7,7 @@ import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {BaseConstructor} from "../interface";
+import {iDebuglog} from "../utils";
 
 /**
  * 类反射
@@ -99,14 +100,16 @@ export class ClassReflect<T extends BaseConstructor> {
     // 遍历方法列表
     if (methodKeys) {
       list.push(...Array.from(methodKeys));
-      list.forEach(key => {
-        const methodReflect = new MethodReflect(
-          classReflect,
-          key
-        );
-        classReflect.instanceMembers.set(key, methodReflect);
-      })
     }
+
+    // 修复 methodKeys 在没有装饰器的时候不能循环
+    list.forEach(key => {
+      const methodReflect = new MethodReflect(
+        classReflect,
+        key
+      );
+      classReflect.instanceMembers.set(key, methodReflect);
+    });
 
     // 遍历成员列表
     if (propertyKeys) {

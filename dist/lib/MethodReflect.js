@@ -17,10 +17,12 @@ class MethodReflect {
          * 参数列表
          */
         this.parameters = [];
-        MethodReflect.parseParameters(this);
-        MethodReflect.parseReturnType(this);
         // @ts-ignore
         const target = this.isStatic ? this.parent._target : this.getTarget();
+        if (!target)
+            return;
+        MethodReflect.parseParameters(this);
+        MethodReflect.parseReturnType(this);
         const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
         if (descriptor) {
             this.isGetter = typeof descriptor.get === "function";
@@ -69,7 +71,6 @@ class MethodReflect {
             paramTypes = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.ParamTypes, 
             // @ts-ignore
             methodReflect.parent._target);
-            // iDebuglog(paramTypes, module, 'paramTypes')
         }
         if (paramTypes) {
             paramTypes.map((type, index) => {

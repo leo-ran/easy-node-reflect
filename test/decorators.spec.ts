@@ -87,15 +87,7 @@ describe("AbstractClassDecorator", () => {
   });
 
 
-  class B {
-    constructor() {}
-  }
-
-  class A extends B{}
-
-
-
   // iDebuglog(classReflect.staticMembers, module, "staticMembers");
-  // iDebuglog(classReflect.instanceMembers, module, "instanceMembers");
+  iDebuglog(classReflect.instanceMembers, module, "instanceMembers");
   iDebuglog(classReflect.superClass, module);
 });

@@ -46,6 +46,7 @@ export class PropertyReflect<T extends Function = any> {
   static parseType(propertyReflect: PropertyReflect): void {
     // @ts-ignore
     const target =  propertyReflect.isStatic ? propertyReflect.parent._target : propertyReflect.getTarget();
+    if (!target) return;
     const type = Reflect.getMetadata(SystemReflectKeys.Type, target, propertyReflect.propertyKey);
     if (type) {
       propertyReflect.type = type;

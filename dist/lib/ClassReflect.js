@@ -84,11 +84,12 @@ class ClassReflect {
         // 遍历方法列表
         if (methodKeys) {
             list.push(...Array.from(methodKeys));
-            list.forEach(key => {
-                const methodReflect = new MethodReflect_1.MethodReflect(classReflect, key);
-                classReflect.instanceMembers.set(key, methodReflect);
-            });
         }
+        // 修复 methodKeys 在没有装饰器的时候不能循环
+        list.forEach(key => {
+            const methodReflect = new MethodReflect_1.MethodReflect(classReflect, key);
+            classReflect.instanceMembers.set(key, methodReflect);
+        });
         // 遍历成员列表
         if (propertyKeys) {
             Array.from(propertyKeys).forEach(key => {
