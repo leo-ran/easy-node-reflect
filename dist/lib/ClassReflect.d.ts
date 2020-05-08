@@ -30,7 +30,7 @@ export declare class ClassReflect<T extends BaseConstructor> {
      * target 实例化
      * @param positionalArguments
      */
-    newInstance(positionalArguments: ConstructorParameters<T>): InstanceReflect<T>;
+    newInstance(positionalArguments: any[]): InstanceReflect<T>;
     /**
      * 父类反射
      */

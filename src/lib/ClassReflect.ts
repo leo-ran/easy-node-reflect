@@ -52,7 +52,7 @@ export class ClassReflect<T extends BaseConstructor> {
    * target 实例化
    * @param positionalArguments
    */
-  public newInstance(positionalArguments: ConstructorParameters<T>): InstanceReflect<T> {
+  public newInstance(positionalArguments: any[]): InstanceReflect<T> {
     return new InstanceReflect<T>(Reflect.construct(this._target, positionalArguments));
   }
 

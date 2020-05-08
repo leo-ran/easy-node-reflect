@@ -1,6 +1,6 @@
 {
   "name": "@easy-node/reflect",
-  "version": "0.0.1-dev.4",
+  "version": "0.0.1-beta",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "test": "mocha --watch",
     "doc": "typedoc  --tsconfig tsconfig.json",
     "build": "del-cli ./dist & del-cli ./docs & npm run doc & tsc",
-    "rebuild": "npm publish --access public"
+    "rebuild": "npm publish --access public --tag=beta"
   },
   "repository": {
     "url": "https://github.com/leo-ran/easy-node-reflect.git",
