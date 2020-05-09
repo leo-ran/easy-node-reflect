@@ -1,11 +1,8 @@
 import "reflect-metadata";
 export * from "./lib/AbstractClassDecorator";
 export * from "./lib/AbstractPropertyDecorator";
-export * from "./lib/AbstractPropertyMetadata";
 export * from "./lib/AbstractMethodDecorator";
-export * from "./lib/AbstractMethodMetadata";
 export * from "./lib/AbstractParameterDecorator";
-export * from "./lib/AbstractParameterMetadata";
 export * from "./lib/ClassReflect";
 export * from "./lib/PropertyReflect";
 export * from "./lib/PropertyMap";

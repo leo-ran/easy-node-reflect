@@ -2,17 +2,27 @@ import { InstanceReflect } from "./InstanceReflect";
 import { AbstractClassDecorator } from "./AbstractClassDecorator";
 import { MethodReflect } from "./MethodReflect";
 import { PropertyReflect } from "./PropertyReflect";
-import { BaseConstructor } from "../interface";
+import { BaseConstructor, NewInstanceCallback } from "../interface";
 /**
  * 类反射
  */
-export declare class ClassReflect<T extends BaseConstructor> {
+export declare class ClassReflect<T extends BaseConstructor = any> {
     protected _target: T;
-    constructor(_target: T);
+    parent?: ClassReflect<any> | undefined;
+    constructor(_target: T, parent?: ClassReflect<any> | undefined);
+    /**
+     * `_target`类的服务提供映射
+     * 用于在实例化 `_target`注入参数的类型=>参数映射关系查找
+     */
+    provider: Map<BaseConstructor, Set<any>>;
     /**
      * 获取 `ClassReflect` 的目标
      */
     getTarget(): any;
+    /**
+     * 获取 `ClassReflect` 的目标类的 名称
+     */
+    getTargetName(): string;
     private _superClass?;
     /**
      * 元数据列表
@@ -28,17 +38,13 @@ export declare class ClassReflect<T extends BaseConstructor> {
     staticMembers: Map<string | symbol, MethodReflect | PropertyReflect>;
     /**
      * target 实例化
-     * @param positionalArguments
+     * @param callback
      */
-    newInstance(positionalArguments: any[]): InstanceReflect<T>;
+    newInstance(callback: NewInstanceCallback): InstanceReflect<InstanceType<T>>;
     /**
      * 父类反射
      */
     get superClass(): any;
-    /**
-     * 运行时类型
-     */
-    runtimeType: typeof ClassReflect;
     /**
      * 解析元数据
      * @param classReflect

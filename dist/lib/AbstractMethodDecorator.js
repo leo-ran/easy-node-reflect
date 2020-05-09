@@ -1,13 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const AbstractMethodMetadata_1 = require("./AbstractMethodMetadata");
 const TargetMap_1 = require("./TargetMap");
 const MethodSet_1 = require("./MethodSet");
 const MethodMap_1 = require("./MethodMap");
 /**
  * 抽象方法装饰器类
  */
-class AbstractMethodDecorator extends AbstractMethodMetadata_1.AbstractMethodMetadata {
+class AbstractMethodDecorator {
+    setDescriptor(descriptor) {
+        this.descriptor = descriptor;
+        return this;
+    }
+    setPropertyKey(propertyKey) {
+        this.propertyKey = propertyKey;
+        return this;
+    }
     static create(IDecorator) {
         function decorator(...args) {
             return (target, propertyKey, descriptor) => {

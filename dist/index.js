@@ -8,13 +8,10 @@ require("reflect-metadata");
 __export(require("./lib/AbstractClassDecorator"));
 // 属性装饰器
 __export(require("./lib/AbstractPropertyDecorator"));
-__export(require("./lib/AbstractPropertyMetadata"));
 // 方法装饰器
 __export(require("./lib/AbstractMethodDecorator"));
-__export(require("./lib/AbstractMethodMetadata"));
 // 参数装饰器
 __export(require("./lib/AbstractParameterDecorator"));
-__export(require("./lib/AbstractParameterMetadata"));
 // `class`元数据反射类
 __export(require("./lib/ClassReflect"));
 __export(require("./lib/PropertyReflect"));

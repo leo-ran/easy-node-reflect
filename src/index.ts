@@ -4,13 +4,10 @@ import "reflect-metadata";
 export * from "./lib/AbstractClassDecorator";
 // 属性装饰器
 export * from "./lib/AbstractPropertyDecorator";
-export * from "./lib/AbstractPropertyMetadata";
 // 方法装饰器
 export * from "./lib/AbstractMethodDecorator";
-export * from "./lib/AbstractMethodMetadata";
 // 参数装饰器
 export * from "./lib/AbstractParameterDecorator";
-export * from "./lib/AbstractParameterMetadata";
 
 // `class`元数据反射类
 export * from "./lib/ClassReflect";

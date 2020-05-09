@@ -1,11 +1,10 @@
 import {MethodReflect} from "./MethodReflect";
 import {InstanceReflect} from "./InstanceReflect";
-import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {ParameterSet} from "./ParameterSet";
 
 export class ParameterReflect<T = any> {
-  private _metadata?: Array<InstanceReflect<AbstractPropertyDecorator>>;
+  private _metadata?: Array<InstanceReflect<AbstractParameterDecorator>>;
   public constructor(
     public parent: MethodReflect,
     public type: T,
@@ -17,7 +16,7 @@ export class ParameterReflect<T = any> {
     this._metadata = value;
   }
 
-  public get metadata(): Array<InstanceReflect<AbstractPropertyDecorator>> {
+  public get metadata(): Array<InstanceReflect<AbstractParameterDecorator>> {
     // 懒加载 缓存处理
     if (!this._metadata) {
       this._metadata = [];

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const AbstractParameterMetadata_1 = require("./AbstractParameterMetadata");
 const ParameterSet_1 = require("./ParameterSet");
 const TargetMap_1 = require("./TargetMap");
 const ParameterMap_1 = require("./ParameterMap");
@@ -8,7 +7,14 @@ const MethodMap_1 = require("./MethodMap");
 /**
  * 抽象参数装饰器类
  */
-class AbstractParameterDecorator extends AbstractParameterMetadata_1.AbstractParameterMetadata {
+class AbstractParameterDecorator {
+    setPropertyKey(propertyKey) {
+        this.propertyKey = propertyKey;
+        return this;
+    }
+    setParameterIndex(index) {
+        this.parameterIndex = index;
+    }
     static create(IDecorator) {
         function decorator(...args) {
             return (target, propertyKey, parameterIndex) => {

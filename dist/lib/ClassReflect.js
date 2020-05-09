@@ -12,8 +12,14 @@ const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
  * 类反射
  */
 class ClassReflect {
-    constructor(_target) {
+    constructor(_target, parent) {
         this._target = _target;
+        this.parent = parent;
+        /**
+         * `_target`类的服务提供映射
+         * 用于在实例化 `_target`注入参数的类型=>参数映射关系查找
+         */
+        this.provider = new Map();
         /**
          * 元数据列表
          */
@@ -26,10 +32,6 @@ class ClassReflect {
          * 静态成员映射
          */
         this.staticMembers = new Map();
-        /**
-         * 运行时类型
-         */
-        this.runtimeType = ClassReflect;
         // 解析元数据
         ClassReflect.parseMetadata(this);
         // 解析实例成员装饰器
@@ -44,11 +46,40 @@ class ClassReflect {
         return this._target.prototype;
     }
     /**
-     * target 实例化
-     * @param positionalArguments
+     * 获取 `ClassReflect` 的目标类的 名称
      */
-    newInstance(positionalArguments) {
-        return new InstanceReflect_1.InstanceReflect(Reflect.construct(this._target, positionalArguments));
+    getTargetName() {
+        return this._target.name;
+    }
+    /**
+     * target 实例化
+     * @param callback
+     */
+    newInstance(callback) {
+        let positionalArguments = [];
+        this.metadata.forEach(item => {
+            if (typeof item.metadata.onNewInstance === "function") {
+                // 实例化前 给装饰器 传递实例
+                const methodReflect = this.instanceMembers.get("constructor");
+                if (methodReflect instanceof MethodReflect_1.MethodReflect) {
+                    const injectMap = item.metadata.onNewInstance(methodReflect);
+                    injectMap.forEach((instanceReflect, key) => {
+                        const sets = this.provider.get(key) || new Set();
+                        sets.add(instanceReflect);
+                        this.provider.set(key, sets);
+                    });
+                    positionalArguments = callback(this, methodReflect.parameters);
+                }
+            }
+        });
+        const instanceReflect = new InstanceReflect_1.InstanceReflect(Reflect.construct(this._target, positionalArguments));
+        this.metadata.forEach(item => {
+            if (typeof item.metadata.onNewInstanced === "function") {
+                // 实例化后 给装饰器 传递实例
+                item.metadata.onNewInstanced(instanceReflect);
+            }
+        });
+        return instanceReflect;
     }
     /**
      * 父类反射

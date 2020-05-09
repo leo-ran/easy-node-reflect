@@ -1,14 +1,28 @@
-import {AbstractParameterMetadata} from "./AbstractParameterMetadata";
 import {DecoratorFactory} from "../interface";
 import {ParameterSet} from "./ParameterSet";
 import {TargetMap} from "./TargetMap";
 import {ParameterMap} from "./ParameterMap";
 import {MethodMap} from "./MethodMap";
+import {ParameterReflect} from "./ParameterReflect";
 
 /**
  * 抽象参数装饰器类
  */
-export abstract class AbstractParameterDecorator extends AbstractParameterMetadata {
+export abstract class AbstractParameterDecorator {
+
+  public onInject?<T>(parameterReflect: ParameterReflect, value: T): T;
+
+  public parameterIndex?: number;
+  public propertyKey?: string | symbol;
+
+  public setPropertyKey(propertyKey: string | symbol) {
+    this.propertyKey = propertyKey;
+    return this;
+  }
+
+  public setParameterIndex(index: number) {
+    this.parameterIndex = index;
+  }
 
   static create<
     P extends any[],
@@ -19,7 +33,7 @@ export abstract class AbstractParameterDecorator extends AbstractParameterMetada
     function decorator(...args: P) {
       return (target: Object, propertyKey: string | symbol, parameterIndex: number): void => {
         // 定义元数据
-        const metadata: AbstractParameterMetadata = Reflect.construct(IDecorator, args);
+        const metadata: AbstractParameterDecorator = Reflect.construct(IDecorator, args);
         metadata.setParameterIndex(parameterIndex);
         metadata.setPropertyKey(propertyKey);
 
@@ -41,20 +55,20 @@ export abstract class AbstractParameterDecorator extends AbstractParameterMetada
       string | symbol,
       ParameterMap<
         number,
-        ParameterSet<AbstractParameterMetadata>
+        ParameterSet<AbstractParameterDecorator>
       >
     >
   > = new TargetMap();
 
   static defineMetadata<
     T extends Object,
-    M extends AbstractParameterMetadata,
+    M extends AbstractParameterDecorator,
     P extends string | symbol,
     I extends number
     >(target: T, metadata: M, propertyKey: P, index: I): void {
     const methodMap = AbstractParameterDecorator._targets.get(target) || new MethodMap();
     const parameterMap = methodMap.get(propertyKey) || new ParameterMap();
-    const parameterSet = parameterMap.get(index) || new ParameterSet<AbstractParameterMetadata>();
+    const parameterSet = parameterMap.get(index) || new ParameterSet<AbstractParameterDecorator>();
 
     parameterSet.add(metadata);
     parameterMap.set(index, parameterSet);
@@ -72,7 +86,7 @@ export abstract class AbstractParameterDecorator extends AbstractParameterMetada
     T extends Object,
     P extends string | symbol,
     I extends number
-  >(target: T, propertyKey: P, index: I): ParameterSet<AbstractParameterMetadata> | undefined;
+  >(target: T, propertyKey: P, index: I): ParameterSet<AbstractParameterDecorator> | undefined;
   /**
    * 根据目标类的成员方法名称 获取所有的参数装饰器 元数据
    * @param target
@@ -82,12 +96,12 @@ export abstract class AbstractParameterDecorator extends AbstractParameterMetada
     T extends Object,
     P extends string | symbol,
     I extends number
-  >(target: T, propertyKey: P): ParameterMap<I, ParameterSet<AbstractParameterMetadata>> | undefined;
+  >(target: T, propertyKey: P): ParameterMap<I, ParameterSet<AbstractParameterDecorator>> | undefined;
   static getMetadata<
     T extends Object,
     P extends string | symbol,
     I extends number
-  >(target: T, propertyKey: P, index?: I): ParameterMap<I, ParameterSet<AbstractParameterMetadata>> | ParameterSet<AbstractParameterMetadata> | undefined {
+  >(target: T, propertyKey: P, index?: I): ParameterMap<I, ParameterSet<AbstractParameterDecorator>> | ParameterSet<AbstractParameterDecorator> | undefined {
     const methodMap = AbstractParameterDecorator._targets.get(target);
     if (methodMap instanceof MethodMap) {
       const parameterMap = methodMap.get(propertyKey);
@@ -100,7 +114,7 @@ export abstract class AbstractParameterDecorator extends AbstractParameterMetada
             return parameterSet;
           }
         }
-        return parameterMap as ParameterMap<I, ParameterSet<AbstractParameterMetadata>>;
+        return parameterMap as ParameterMap<I, ParameterSet<AbstractParameterDecorator>>;
       }
     }
   }

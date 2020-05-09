@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AbstractParameterDecorator | @easy-node/reflect - v0.0.1-dev.5</title>
-	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.1-dev.5">
+	<title>AbstractParameterDecorator | @easy-node/reflect - v0.0.2</title>
+	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.2">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@easy-node/reflect - v0.0.1-dev.5</a>
+					<a href="../index.html" class="title">@easy-node/reflect - v0.0.2</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -77,12 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">AbstractParameterDecorator</span>
-							</li>
-						</ul>
+						<span class="target">AbstractParameterDecorator</span>
 					</li>
 				</ul>
 			</section>
@@ -93,16 +88,17 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="abstractparameterdecorator.html#parameterindex" class="tsd-kind-icon">parameter<wbr>Index</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="abstractparameterdecorator.html#propertykey" class="tsd-kind-icon">property<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="abstractparameterdecorator.html#parameterindex" class="tsd-kind-icon">parameter<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="abstractparameterdecorator.html#propertykey" class="tsd-kind-icon">property<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="abstractparameterdecorator.html#_targets" class="tsd-kind-icon">_targets</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractparameterdecorator.html#setparameterindex" class="tsd-kind-icon">set<wbr>Parameter<wbr>Index</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractparameterdecorator.html#setpropertykey" class="tsd-kind-icon">set<wbr>Property<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="abstractparameterdecorator.html#oninject" class="tsd-kind-icon">on<wbr>Inject</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="abstractparameterdecorator.html#setparameterindex" class="tsd-kind-icon">set<wbr>Parameter<wbr>Index</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="abstractparameterdecorator.html#setpropertykey" class="tsd-kind-icon">set<wbr>Property<wbr>Key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="abstractparameterdecorator.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="abstractparameterdecorator.html#definemetadata" class="tsd-kind-icon">define<wbr>Metadata</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="abstractparameterdecorator.html#getmetadata" class="tsd-kind-icon">get<wbr>Metadata</a></li>
@@ -114,53 +110,82 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="parameterindex" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parameter<wbr>Index</h3>
 					<div class="tsd-signature tsd-kind-icon">parameter<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="abstractparametermetadata.html">AbstractParameterMetadata</a>.<a href="abstractparametermetadata.html#parameterindex">parameterIndex</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterMetadata.ts#L5">src/lib/AbstractParameterMetadata.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L15">src/lib/AbstractParameterDecorator.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="propertykey" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> property<wbr>Key</h3>
 					<div class="tsd-signature tsd-kind-icon">property<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="abstractparametermetadata.html">AbstractParameterMetadata</a>.<a href="abstractparametermetadata.html#propertykey">propertyKey</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterMetadata.ts#L6">src/lib/AbstractParameterMetadata.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L16">src/lib/AbstractParameterDecorator.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 					<a name="_targets" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _targets</h3>
-					<div class="tsd-signature tsd-kind-icon">_targets<span class="tsd-signature-symbol">:</span> <a href="targetmap.html" class="tsd-signature-type">TargetMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">, </span><a href="methodmap.html" class="tsd-signature-type">MethodMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new TargetMap()</span></div>
+					<div class="tsd-signature tsd-kind-icon">_targets<span class="tsd-signature-symbol">:</span> <a href="targetmap.html" class="tsd-signature-type">TargetMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">, </span><a href="methodmap.html" class="tsd-signature-type">MethodMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new TargetMap()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L38">src/lib/AbstractParameterDecorator.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L52">src/lib/AbstractParameterDecorator.ts:52</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="oninject" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Inject</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Inject&lt;T&gt;<span class="tsd-signature-symbol">(</span>parameterReflect<span class="tsd-signature-symbol">: </span><a href="parameterreflect.html" class="tsd-signature-type">ParameterReflect</a>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L13">src/lib/AbstractParameterDecorator.ts:13</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>parameterReflect: <a href="parameterreflect.html" class="tsd-signature-type">ParameterReflect</a></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setparameterindex" class="tsd-anchor"></a>
 					<h3>set<wbr>Parameter<wbr>Index</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Parameter<wbr>Index<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractparametermetadata.html">AbstractParameterMetadata</a>.<a href="abstractparametermetadata.html#setparameterindex">setParameterIndex</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterMetadata.ts#L13">src/lib/AbstractParameterMetadata.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L23">src/lib/AbstractParameterDecorator.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,18 +198,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setpropertykey" class="tsd-anchor"></a>
 					<h3>set<wbr>Property<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Property<wbr>Key<span class="tsd-signature-symbol">(</span>propertyKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractparametermetadata.html">AbstractParameterMetadata</a>.<a href="abstractparametermetadata.html#setpropertykey">setPropertyKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterMetadata.ts#L8">src/lib/AbstractParameterMetadata.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L18">src/lib/AbstractParameterDecorator.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -207,7 +231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L13">src/lib/AbstractParameterDecorator.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L27">src/lib/AbstractParameterDecorator.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -239,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L49">src/lib/AbstractParameterDecorator.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L63">src/lib/AbstractParameterDecorator.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -248,7 +272,7 @@
 									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></h4>
 								</li>
 								<li>
-									<h4>M<span class="tsd-signature-symbol">: </span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a></h4>
+									<h4>M<span class="tsd-signature-symbol">: </span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a></h4>
 								</li>
 								<li>
 									<h4>P<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h4>
@@ -280,14 +304,14 @@
 					<a name="getmetadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Metadata</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Metadata&lt;T, P, I&gt;<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, propertyKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Metadata&lt;T, P, I&gt;<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, propertyKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Metadata&lt;T, P, I&gt;<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, propertyKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Metadata&lt;T, P, I&gt;<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, propertyKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L71">src/lib/AbstractParameterDecorator.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L85">src/lib/AbstractParameterDecorator.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,12 +352,12 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L81">src/lib/AbstractParameterDecorator.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L95">src/lib/AbstractParameterDecorator.ts:95</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +388,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparametermetadata.html" class="tsd-signature-type">AbstractParameterMetadata</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="parametermap.html" class="tsd-signature-type">ParameterMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">, </span><a href="parameterset.html" class="tsd-signature-type">ParameterSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractparameterdecorator.html" class="tsd-signature-type">AbstractParameterDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -378,7 +402,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/AbstractParameterDecorator.ts#L112">src/lib/AbstractParameterDecorator.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/AbstractParameterDecorator.ts#L126">src/lib/AbstractParameterDecorator.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,27 +449,27 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="abstractmethoddecorator.html" class="tsd-kind-icon">Abstract<wbr>Method<wbr>Decorator</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="abstractmethodmetadata.html" class="tsd-kind-icon">Abstract<wbr>Method<wbr>Metadata</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
 						<a href="abstractparameterdecorator.html" class="tsd-kind-icon">Abstract<wbr>Parameter<wbr>Decorator</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="abstractparameterdecorator.html#parameterindex" class="tsd-kind-icon">parameter<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="abstractparameterdecorator.html#propertykey" class="tsd-kind-icon">property<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="abstractparameterdecorator.html#_targets" class="tsd-kind-icon">_targets</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="abstractparameterdecorator.html#oninject" class="tsd-kind-icon">on<wbr>Inject</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="abstractparameterdecorator.html#setparameterindex" class="tsd-kind-icon">set<wbr>Parameter<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="abstractparameterdecorator.html#setpropertykey" class="tsd-kind-icon">set<wbr>Property<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
@@ -465,19 +489,16 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
-						<a href="abstractparametermetadata.html" class="tsd-kind-icon">Abstract<wbr>Parameter<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="abstractpropertydecorator.html" class="tsd-kind-icon">Abstract<wbr>Property<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="abstractpropertymetadata.html" class="tsd-kind-icon">Abstract<wbr>Property<wbr>Metadata</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classreflect.html" class="tsd-kind-icon">Class<wbr>Reflect</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classset.html" class="tsd-kind-icon">Class<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="injectmap.html" class="tsd-kind-icon">Inject<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="instancereflect.html" class="tsd-kind-icon">Instance<wbr>Reflect</a>
@@ -530,8 +551,20 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="../interfaces/propertydecoratorconstructor.html" class="tsd-kind-icon">Property<wbr>Decorator<wbr>Constructor</a>
 					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#basedecorator" class="tsd-kind-icon">Base<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#basereflect" class="tsd-kind-icon">Base<wbr>Reflect</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../globals.html#invokefunparameters" class="tsd-kind-icon">Invoke<wbr>Fun<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#newinstancecallback" class="tsd-kind-icon">New<wbr>Instance<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#positionalargumentscallback" class="tsd-kind-icon">Positional<wbr>Arguments<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#module" class="tsd-kind-icon">Module</a>

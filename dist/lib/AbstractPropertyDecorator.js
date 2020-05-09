@@ -1,13 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const AbstractPropertyMetadata_1 = require("./AbstractPropertyMetadata");
 const TargetMap_1 = require("./TargetMap");
 const PropertySet_1 = require("./PropertySet");
 const PropertyMap_1 = require("./PropertyMap");
 /**
  * 抽象属性装饰器类
  */
-class AbstractPropertyDecorator extends AbstractPropertyMetadata_1.AbstractPropertyMetadata {
+class AbstractPropertyDecorator {
+    setPropertyKey(propertyKey) {
+        this.propertyKey = propertyKey;
+        return this;
+    }
     static create(IDecorator) {
         function decorator(...args) {
             return (target, propertyKey) => {

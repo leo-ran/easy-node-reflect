@@ -1,13 +1,38 @@
-import {AbstractPropertyMetadata} from "./AbstractPropertyMetadata";
 import {DecoratorFactory} from "../interface";
 import {TargetMap} from "./TargetMap";
 import {PropertySet} from "./PropertySet";
 import {PropertyMap} from "./PropertyMap";
+import {PropertyReflect} from "./PropertyReflect";
 
 /**
  * 抽象属性装饰器类
  */
-export abstract class AbstractPropertyDecorator extends AbstractPropertyMetadata {
+export abstract class AbstractPropertyDecorator  {
+
+  /**
+   * 当此属性装饰器 被装饰的属性设置属性值时 触发
+   * 不支持异步
+   *
+   * @param propertyReflect 属性元数据映射
+   * @param value 设置的值
+   * @return T 返回 设置的值 或 更新设置的值
+   */
+  public onSetValue?<T>(propertyReflect: PropertyReflect<any> ,value: T): T;
+
+  /**
+   * 当此属性装饰器 被装饰的属性获取属性值时 触发
+   * 不支持异步
+   * @param propertyReflect 属性元数据映射
+   * @param value 设置的值
+   */
+  public onGetValue?<T>(propertyReflect: PropertyReflect<any>, value: T): void;
+
+  public propertyKey?: string | symbol;
+
+  public setPropertyKey(propertyKey: string | symbol) {
+    this.propertyKey = propertyKey;
+    return this;
+  }
 
   static create<
     P extends any[],
@@ -18,7 +43,7 @@ export abstract class AbstractPropertyDecorator extends AbstractPropertyMetadata
     function decorator(...args: P) {
       return (target: Object, propertyKey: string | symbol):void => {
         // 定义元数据
-        const metadata: AbstractPropertyMetadata = Reflect.construct(IDecorator, args);
+        const metadata: AbstractPropertyDecorator = Reflect.construct(IDecorator, args);
         metadata.setPropertyKey(propertyKey);
 
         AbstractPropertyDecorator.defineMetadata(target, metadata, propertyKey);
@@ -28,7 +53,7 @@ export abstract class AbstractPropertyDecorator extends AbstractPropertyMetadata
     return decorator;
   }
 
-  private static _targets: TargetMap<Object, PropertyMap<string | symbol, PropertySet<AbstractPropertyMetadata>>> = new TargetMap();
+  private static _targets: TargetMap<Object, PropertyMap<string | symbol, PropertySet<AbstractPropertyDecorator>>> = new TargetMap();
 
   /**
    * 根据目标类 定义元数据
@@ -38,12 +63,12 @@ export abstract class AbstractPropertyDecorator extends AbstractPropertyMetadata
    */
   static defineMetadata<
     T extends Object,
-    M extends AbstractPropertyMetadata,
+    M extends AbstractPropertyDecorator,
     P extends string | symbol,
     >(target: T, metadata: M, propertyKey: P) {
 
     const propertyMap = AbstractPropertyDecorator._targets.get(target) || new PropertyMap();
-    const propertySet = propertyMap.get(propertyKey) || new PropertySet<AbstractPropertyMetadata>();
+    const propertySet = propertyMap.get(propertyKey) || new PropertySet<AbstractPropertyDecorator>();
     propertySet.add(metadata);
     propertyMap.set(propertyKey, propertySet);
     AbstractPropertyDecorator._targets.set(target, propertyMap);
@@ -57,7 +82,7 @@ export abstract class AbstractPropertyDecorator extends AbstractPropertyMetadata
   static getMetadata<
     T extends Object,
     P extends string | symbol,
-    >(target: T, propertyKey: P): PropertySet<AbstractPropertyMetadata> | undefined {
+    >(target: T, propertyKey: P): PropertySet<AbstractPropertyDecorator> | undefined {
     const propertyMap = AbstractPropertyDecorator._targets.get(target);
     if (propertyMap instanceof PropertyMap) {
       const propertySet = propertyMap.get(propertyKey);

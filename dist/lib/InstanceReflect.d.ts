@@ -2,8 +2,11 @@ import { AbstractClassDecorator } from "./AbstractClassDecorator";
 import { AbstractMethodDecorator } from "./AbstractMethodDecorator";
 import { AbstractPropertyDecorator } from "./AbstractPropertyDecorator";
 import { AbstractParameterDecorator } from "./AbstractParameterDecorator";
-export declare class InstanceReflect<T extends AbstractClassDecorator | AbstractMethodDecorator | AbstractPropertyDecorator | AbstractParameterDecorator> {
+import { PositionalArgumentsCallback } from "../interface";
+import { ClassReflect } from "./ClassReflect";
+export declare class InstanceReflect<T extends AbstractClassDecorator | AbstractMethodDecorator | AbstractPropertyDecorator | AbstractParameterDecorator | Object> {
     metadata: T;
+    parent: ClassReflect<any>;
     constructor(metadata: T);
     /**
      * Get metadata member value.
@@ -21,13 +24,12 @@ export declare class InstanceReflect<T extends AbstractClassDecorator | Abstract
      * @param memberName 成员名称
      * @param positionalArguments 参数
      */
-    invoke<K extends keyof T>(memberName: K, positionalArguments: InvokeFunParameters<T[K]>): void;
+    invoke<K extends keyof T, V>(memberName: K, positionalArguments: InvokeFunParameters<T[K]> | PositionalArgumentsCallback): Promise<void | V>;
     /**
      * 比较实例类型
      * @param other
      */
     instanceOf<T extends Function>(other: T): boolean;
-    runtimeType: typeof InstanceReflect;
 }
 declare type InvokeFunParameters<V> = V extends (...args: any[]) => any ? Parameters<V> : never;
 export {};

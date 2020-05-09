@@ -1,6 +1,6 @@
 import { MethodReflect } from "./MethodReflect";
 import { InstanceReflect } from "./InstanceReflect";
-import { AbstractPropertyDecorator } from "./AbstractPropertyDecorator";
+import { AbstractParameterDecorator } from "./AbstractParameterDecorator";
 export declare class ParameterReflect<T = any> {
     parent: MethodReflect;
     type: T;
@@ -8,8 +8,8 @@ export declare class ParameterReflect<T = any> {
     parameterIndex: number;
     private _metadata?;
     constructor(parent: MethodReflect, type: T, propertyKey: string | symbol, parameterIndex: number);
-    set metadata(value: Array<InstanceReflect<AbstractPropertyDecorator>>);
-    get metadata(): Array<InstanceReflect<AbstractPropertyDecorator>>;
+    set metadata(value: Array<InstanceReflect<AbstractParameterDecorator>>);
+    get metadata(): Array<InstanceReflect<AbstractParameterDecorator>>;
     getTarget(): any;
     static parseMetadata(parameterReflect: ParameterReflect): void;
 }

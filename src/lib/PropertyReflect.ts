@@ -40,7 +40,6 @@ export class PropertyReflect<T extends Function = any> {
         return new InstanceReflect<AbstractPropertyDecorator>(item);
       })
     }
-
   }
 
   static parseType(propertyReflect: PropertyReflect): void {

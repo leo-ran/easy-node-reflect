@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ClassReflect | @easy-node/reflect - v0.0.1-dev.5</title>
-	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.1-dev.5">
+	<title>ClassReflect | @easy-node/reflect - v0.0.2</title>
+	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.2">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@easy-node/reflect - v0.0.1-dev.5</a>
+					<a href="../index.html" class="title">@easy-node/reflect - v0.0.2</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -105,7 +105,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="classreflect.html#_superclass" class="tsd-kind-icon">_super<wbr>Class</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#instancemembers" class="tsd-kind-icon">instance<wbr>Members</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#runtimetype" class="tsd-kind-icon">runtime<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#provider" class="tsd-kind-icon">provider</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="classreflect.html#staticmembers" class="tsd-kind-icon">static<wbr>Members</a></li>
 							</ul>
 						</section>
@@ -119,6 +120,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classreflect.html#gettarget" class="tsd-kind-icon">get<wbr>Target</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classreflect.html#gettargetname" class="tsd-kind-icon">get<wbr>Target<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classreflect.html#newinstance" class="tsd-kind-icon">new<wbr>Instance</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="classreflect.html#parseinstancemembers" class="tsd-kind-icon">parse<wbr>Instance<wbr>Members</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="classreflect.html#parsemetadata" class="tsd-kind-icon">parse<wbr>Metadata</a></li>
@@ -134,19 +136,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Class<wbr>Reflect<span class="tsd-signature-symbol">(</span>_target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Class<wbr>Reflect<span class="tsd-signature-symbol">(</span>_target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, parent<span class="tsd-signature-symbol">?: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L15">src/lib/ClassReflect.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L14">src/lib/ClassReflect.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>_target: <span class="tsd-signature-type">T</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> parent: <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a></h4>
@@ -162,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">_super<wbr>Class<span class="tsd-signature-symbol">:</span> <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L34">src/lib/ClassReflect.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L47">src/lib/ClassReflect.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +177,7 @@
 					<div class="tsd-signature tsd-kind-icon">instance<wbr>Members<span class="tsd-signature-symbol">:</span> <a href="targetmap.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol"> | </span><a href="propertyreflect.html" class="tsd-signature-type">PropertyReflect</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L44">src/lib/ClassReflect.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L57">src/lib/ClassReflect.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -187,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractclassdecorator.html" class="tsd-signature-type">AbstractClassDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L39">src/lib/ClassReflect.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L52">src/lib/ClassReflect.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -197,17 +202,28 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="runtimetype" class="tsd-anchor"></a>
-					<h3>runtime<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">runtime<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol"> = ClassReflect</span></div>
+					<a name="parent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L72">src/lib/ClassReflect.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L17">src/lib/ClassReflect.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="provider" class="tsd-anchor"></a>
+					<h3>provider</h3>
+					<div class="tsd-signature tsd-kind-icon">provider<span class="tsd-signature-symbol">:</span> <a href="targetmap.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/baseconstructor.html" class="tsd-signature-type">BaseConstructor</a><span class="tsd-signature-symbol">, </span><a href="parameterset.html#set" class="tsd-signature-type">Set</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L31">src/lib/ClassReflect.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>运行时类型</p>
+							<p><code>_target</code>类的服务提供映射
+							用于在实例化 <code>_target</code>注入参数的类型=&gt;参数映射关系查找</p>
 						</div>
 					</div>
 				</section>
@@ -217,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">static<wbr>Members<span class="tsd-signature-symbol">:</span> <a href="targetmap.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol"> | </span><a href="propertyreflect.html" class="tsd-signature-type">PropertyReflect</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L49">src/lib/ClassReflect.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L62">src/lib/ClassReflect.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -239,7 +255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L62">src/lib/ClassReflect.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L98">src/lib/ClassReflect.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -264,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L30">src/lib/ClassReflect.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L36">src/lib/ClassReflect.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,16 +293,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="newinstance" class="tsd-anchor"></a>
-					<h3>new<wbr>Instance</h3>
+					<a name="gettargetname" class="tsd-anchor"></a>
+					<h3>get<wbr>Target<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Instance<span class="tsd-signature-symbol">(</span>positionalArguments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Target<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L55">src/lib/ClassReflect.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L43">src/lib/ClassReflect.ts:43</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>获取 <code>ClassReflect</code> 的目标类的 名称</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="newinstance" class="tsd-anchor"></a>
+					<h3>new<wbr>Instance</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Instance<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><a href="../globals.html#newinstancecallback" class="tsd-signature-type">NewInstanceCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">InstanceType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L68">src/lib/ClassReflect.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,12 +335,12 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>positionalArguments: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>callback: <a href="../globals.html#newinstancecallback" class="tsd-signature-type">NewInstanceCallback</a></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">InstanceType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -316,7 +354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L92">src/lib/ClassReflect.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L123">src/lib/ClassReflect.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,7 +390,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L79">src/lib/ClassReflect.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L109">src/lib/ClassReflect.ts:109</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -388,7 +426,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/1f1883c/src/lib/ClassReflect.ts#L144">src/lib/ClassReflect.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/89d0055/src/lib/ClassReflect.ts#L175">src/lib/ClassReflect.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,20 +473,11 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="abstractmethoddecorator.html" class="tsd-kind-icon">Abstract<wbr>Method<wbr>Decorator</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="abstractmethodmetadata.html" class="tsd-kind-icon">Abstract<wbr>Method<wbr>Metadata</a>
-					</li>
 					<li class=" tsd-kind-class">
 						<a href="abstractparameterdecorator.html" class="tsd-kind-icon">Abstract<wbr>Parameter<wbr>Decorator</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="abstractparametermetadata.html" class="tsd-kind-icon">Abstract<wbr>Parameter<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="abstractpropertydecorator.html" class="tsd-kind-icon">Abstract<wbr>Property<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="abstractpropertymetadata.html" class="tsd-kind-icon">Abstract<wbr>Property<wbr>Metadata</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -468,7 +497,10 @@
 								<a href="classreflect.html#metadata" class="tsd-kind-icon">metadata</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="classreflect.html#runtimetype" class="tsd-kind-icon">runtime<wbr>Type</a>
+								<a href="classreflect.html#parent" class="tsd-kind-icon">parent</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="classreflect.html#provider" class="tsd-kind-icon">provider</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="classreflect.html#staticmembers" class="tsd-kind-icon">static<wbr>Members</a>
@@ -478,6 +510,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="classreflect.html#gettarget" class="tsd-kind-icon">get<wbr>Target</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="classreflect.html#gettargetname" class="tsd-kind-icon">get<wbr>Target<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="classreflect.html#newinstance" class="tsd-kind-icon">new<wbr>Instance</a>
@@ -497,6 +532,9 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classset.html" class="tsd-kind-icon">Class<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="injectmap.html" class="tsd-kind-icon">Inject<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="instancereflect.html" class="tsd-kind-icon">Instance<wbr>Reflect</a>
@@ -549,8 +587,20 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="../interfaces/propertydecoratorconstructor.html" class="tsd-kind-icon">Property<wbr>Decorator<wbr>Constructor</a>
 					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#basedecorator" class="tsd-kind-icon">Base<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#basereflect" class="tsd-kind-icon">Base<wbr>Reflect</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../globals.html#invokefunparameters" class="tsd-kind-icon">Invoke<wbr>Fun<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#newinstancecallback" class="tsd-kind-icon">New<wbr>Instance<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#positionalargumentscallback" class="tsd-kind-icon">Positional<wbr>Arguments<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#module" class="tsd-kind-icon">Module</a>

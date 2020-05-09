@@ -6,15 +6,15 @@ import {ClassSet} from "./ClassSet";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
-import {BaseConstructor} from "../interface";
-import {iDebuglog} from "../utils";
+import {BaseConstructor, BaseDecorator, NewInstanceCallback} from "../interface";
 
 /**
  * 类反射
  */
-export class ClassReflect<T extends BaseConstructor> {
+export class ClassReflect<T extends BaseConstructor = any> {
   constructor(
     protected _target: T,
+    public parent?: ClassReflect<any>,
   ) {
     // 解析元数据
     ClassReflect.parseMetadata(this);
@@ -25,13 +25,26 @@ export class ClassReflect<T extends BaseConstructor> {
   }
 
   /**
+   * `_target`类的服务提供映射
+   * 用于在实例化 `_target`注入参数的类型=>参数映射关系查找
+   */
+  public provider: Map<BaseConstructor, Set<any>> = new Map();
+
+  /**
    * 获取 `ClassReflect` 的目标
    */
   public getTarget() {
     return this._target.prototype;
   }
 
-  private _superClass?:  ClassReflect<any>;
+  /**
+   * 获取 `ClassReflect` 的目标类的 名称
+   */
+  public getTargetName(): string {
+    return this._target.name;
+  }
+
+  private _superClass?: ClassReflect<any>;
 
   /**
    * 元数据列表
@@ -50,10 +63,33 @@ export class ClassReflect<T extends BaseConstructor> {
 
   /**
    * target 实例化
-   * @param positionalArguments
+   * @param callback
    */
-  public newInstance(positionalArguments: any[]): InstanceReflect<T> {
-    return new InstanceReflect<T>(Reflect.construct(this._target, positionalArguments));
+  public newInstance(callback: NewInstanceCallback): InstanceReflect<InstanceType<T>> {
+    let positionalArguments: any[] = [];
+    this.metadata.forEach(item => {
+      if (typeof item.metadata.onNewInstance === "function") {
+        // 实例化前 给装饰器 传递实例
+        const methodReflect = this.instanceMembers.get("constructor");
+        if (methodReflect instanceof MethodReflect) {
+          const injectMap = item.metadata.onNewInstance(methodReflect);
+          injectMap.forEach((instanceReflect, key) => {
+            const sets = this.provider.get(key) || new Set<any>();
+            sets.add(instanceReflect);
+            this.provider.set(key, sets);
+          });
+          positionalArguments = callback(this, methodReflect.parameters);
+        }
+      }
+    });
+    const instanceReflect = new InstanceReflect<T>(Reflect.construct(this._target, positionalArguments));
+    this.metadata.forEach(item => {
+      if (typeof item.metadata.onNewInstanced === "function") {
+        // 实例化后 给装饰器 传递实例
+        item.metadata.onNewInstanced(instanceReflect as InstanceReflect<BaseDecorator>);
+      }
+    });
+    return instanceReflect as InstanceReflect<InstanceType<T>>;
   }
 
   /**
@@ -67,12 +103,6 @@ export class ClassReflect<T extends BaseConstructor> {
   }
 
   /**
-   * 运行时类型
-   */
-  public runtimeType = ClassReflect;
-
-
-  /**
    * 解析元数据
    * @param classReflect
    */
@@ -83,6 +113,7 @@ export class ClassReflect<T extends BaseConstructor> {
          return new InstanceReflect<AbstractClassDecorator>(metadata);
        })
      }
+
   }
 
   /**
