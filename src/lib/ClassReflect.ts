@@ -73,9 +73,9 @@ export class ClassReflect<T extends BaseConstructor = any> {
         const methodReflect = this.instanceMembers.get("constructor");
         if (methodReflect instanceof MethodReflect) {
           const injectMap = item.metadata.onNewInstance(methodReflect);
-          injectMap.forEach((instanceReflect, key) => {
+          injectMap.forEach((_obj, key) => {
             const sets = this.provider.get(key) || new Set<any>();
-            sets.add(instanceReflect);
+            sets.add(_obj);
             this.provider.set(key, sets);
           });
           positionalArguments = callback(this, methodReflect.parameters);

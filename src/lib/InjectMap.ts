@@ -6,5 +6,5 @@ import {InstanceReflect} from "./InstanceReflect";
 
 export class InjectMap<
   K extends BaseConstructor = BaseConstructor,
-  V extends InstanceReflect<any> = InstanceReflect<any>
+  V extends object = object
   > extends Map<K, V> {}
