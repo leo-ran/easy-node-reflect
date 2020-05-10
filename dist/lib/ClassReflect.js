@@ -62,7 +62,7 @@ class ClassReflect {
                 // 实例化前 给装饰器 传递实例
                 const methodReflect = this.instanceMembers.get("constructor");
                 if (methodReflect instanceof MethodReflect_1.MethodReflect) {
-                    const injectMap = item.metadata.onNewInstance(methodReflect);
+                    const injectMap = item.metadata.onNewInstance(methodReflect, this);
                     injectMap.forEach((_obj, key) => {
                         this.provider.set(key, _obj);
                     });
@@ -74,7 +74,7 @@ class ClassReflect {
         this.metadata.forEach(item => {
             if (typeof item.metadata.onNewInstanced === "function") {
                 // 实例化后 给装饰器 传递实例
-                item.metadata.onNewInstanced(instanceReflect);
+                item.metadata.onNewInstanced(instanceReflect, this);
             }
         });
         return instanceReflect;

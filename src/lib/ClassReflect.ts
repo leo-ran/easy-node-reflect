@@ -72,7 +72,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
         // 实例化前 给装饰器 传递实例
         const methodReflect = this.instanceMembers.get("constructor");
         if (methodReflect instanceof MethodReflect) {
-          const injectMap = item.metadata.onNewInstance(methodReflect);
+          const injectMap = item.metadata.onNewInstance(methodReflect, this);
           injectMap.forEach((_obj, key) => {
             this.provider.set(key, _obj);
           });
@@ -84,7 +84,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
     this.metadata.forEach(item => {
       if (typeof item.metadata.onNewInstanced === "function") {
         // 实例化后 给装饰器 传递实例
-        item.metadata.onNewInstanced(instanceReflect as InstanceReflect<BaseDecorator>);
+        item.metadata.onNewInstanced(instanceReflect as InstanceReflect<BaseDecorator>, this);
       }
     });
     return instanceReflect as InstanceReflect<InstanceType<T>>;
