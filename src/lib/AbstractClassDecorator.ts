@@ -18,7 +18,7 @@ export abstract class AbstractClassDecorator {
    * 当被此装饰器装饰的类实例化后 触发
    * @param instance
    */
-  public onNewInstanced?<T extends BaseDecorator>(instance: InstanceReflect<T>): void;
+  public onNewInstanced?<T extends object>(instance: InstanceReflect<T>): void;
 
   /**
    * 当被此装饰器装饰的类实例化时 触发

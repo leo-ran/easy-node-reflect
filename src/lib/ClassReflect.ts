@@ -28,7 +28,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
    * `_target`类的服务提供映射
    * 用于在实例化 `_target`注入参数的类型=>参数映射关系查找
    */
-  public provider: Map<BaseConstructor, Set<any>> = new Map();
+  public provider: Map<BaseConstructor, object> = new Map();
 
   /**
    * 获取 `ClassReflect` 的目标
@@ -74,9 +74,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
         if (methodReflect instanceof MethodReflect) {
           const injectMap = item.metadata.onNewInstance(methodReflect);
           injectMap.forEach((_obj, key) => {
-            const sets = this.provider.get(key) || new Set<any>();
-            sets.add(_obj);
-            this.provider.set(key, sets);
+            this.provider.set(key, _obj);
           });
           positionalArguments = callback(this, methodReflect.parameters);
         }

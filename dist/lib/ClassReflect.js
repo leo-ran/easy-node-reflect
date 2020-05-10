@@ -64,9 +64,7 @@ class ClassReflect {
                 if (methodReflect instanceof MethodReflect_1.MethodReflect) {
                     const injectMap = item.metadata.onNewInstance(methodReflect);
                     injectMap.forEach((_obj, key) => {
-                        const sets = this.provider.get(key) || new Set();
-                        sets.add(_obj);
-                        this.provider.set(key, sets);
+                        this.provider.set(key, _obj);
                     });
                     positionalArguments = callback(this, methodReflect.parameters);
                 }

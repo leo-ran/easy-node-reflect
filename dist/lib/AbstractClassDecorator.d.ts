@@ -1,4 +1,4 @@
-import { BaseDecorator, DecoratorFactory } from "../interface";
+import { DecoratorFactory } from "../interface";
 import { ClassSet } from "./ClassSet";
 import { InstanceReflect } from "./InstanceReflect";
 import { MethodReflect } from "./MethodReflect";
@@ -11,7 +11,7 @@ export declare abstract class AbstractClassDecorator {
      * 当被此装饰器装饰的类实例化后 触发
      * @param instance
      */
-    onNewInstanced?<T extends BaseDecorator>(instance: InstanceReflect<T>): void;
+    onNewInstanced?<T extends object>(instance: InstanceReflect<T>): void;
     /**
      * 当被此装饰器装饰的类实例化时 触发
      * 不支持异步
