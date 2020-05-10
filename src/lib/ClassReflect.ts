@@ -28,7 +28,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
    * `_target`类的服务提供映射
    * 用于在实例化 `_target`注入参数的类型=>参数映射关系查找
    */
-  public provider: Map<BaseConstructor, object> = new Map();
+  public provider: Map<object, object> = new Map();
 
   /**
    * 获取 `ClassReflect` 的目标
