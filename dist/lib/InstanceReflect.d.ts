@@ -1,13 +1,8 @@
-import { AbstractClassDecorator } from "./AbstractClassDecorator";
-import { AbstractMethodDecorator } from "./AbstractMethodDecorator";
-import { AbstractPropertyDecorator } from "./AbstractPropertyDecorator";
-import { AbstractParameterDecorator } from "./AbstractParameterDecorator";
-import { PositionalArgumentsCallback } from "../interface";
 import { ClassReflect } from "./ClassReflect";
-export declare class InstanceReflect<T extends AbstractClassDecorator | AbstractMethodDecorator | AbstractPropertyDecorator | AbstractParameterDecorator | Object> {
+export declare class InstanceReflect<T extends object> {
     metadata: T;
     parent: ClassReflect<any>;
-    constructor(metadata: T);
+    protected constructor(metadata: T);
     /**
      * Get metadata member value.
      * @param fieldName
@@ -22,14 +17,18 @@ export declare class InstanceReflect<T extends AbstractClassDecorator | Abstract
     /**
      * 调用实例方法
      * @param memberName 成员名称
-     * @param positionalArguments 参数
+     * @param positionalArgumentsCallback 参数
      */
-    invoke<K extends keyof T, V>(memberName: K, positionalArguments: InvokeFunParameters<T[K]> | PositionalArgumentsCallback): Promise<void | V>;
+    invoke<K extends keyof T, V>(memberName: K): Promise<void | V>;
     /**
      * 比较实例类型
      * @param other
      */
     instanceOf<T extends Function>(other: T): boolean;
+    static create<T extends object>(metadata: T): InstanceReflect<T>;
 }
-declare type InvokeFunParameters<V> = V extends (...args: any[]) => any ? Parameters<V> : never;
-export {};
+/**
+ * 映射实例
+ * @param o
+ */
+export declare function reflectInstance<T extends object>(o: T): InstanceReflect<T> | undefined;

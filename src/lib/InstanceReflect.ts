@@ -1,29 +1,26 @@
-import {AbstractClassDecorator} from "./AbstractClassDecorator";
-import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
-import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
-import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
-import {PositionalArgumentsCallback} from "../interface";
 import {ClassReflect} from "./ClassReflect";
 import {MethodReflect} from "./MethodReflect";
 import {PropertyReflect} from "./PropertyReflect";
-import {reflectClass} from "./funcs/reflectClass";
+import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
+import {ParameterReflect} from "./ParameterReflect";
+import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 
-export class InstanceReflect<
-  T extends AbstractClassDecorator | AbstractMethodDecorator | AbstractPropertyDecorator | AbstractParameterDecorator | Object
-  > {
+const instanceReflectCache: Map<object, InstanceReflect<any>> = new Map();
+
+export class InstanceReflect<T extends object> {
   public parent: ClassReflect<any>;
-  constructor(
+  protected constructor(
     public metadata: T,
   ) {
     // @ts-ignore
-    this.parent = reflectClass(metadata.__proto__);
+    this.parent = ClassReflect.create(metadata.__proto__);
   }
 
   /**
    * Get metadata member value.
    * @param fieldName
    */
-  public getField<K extends keyof  T>(fieldName: K) {
+  public getField<K extends keyof T>(fieldName: K) {
     const {parent} = this;
     let value = this.metadata[fieldName];
     const propertyReflect = parent.instanceMembers.get(fieldName as string) || parent.staticMembers.get(fieldName as string);
@@ -31,9 +28,9 @@ export class InstanceReflect<
       const propertyReflectMetadata = propertyReflect.metadata;
       const length = propertyReflectMetadata.length;
       for (let i = 0; i < length; i++) {
-        const metadata = propertyReflect.metadata[i].metadata;
+        const metadata = propertyReflect.metadata[i];
         if (typeof metadata.onGetValue === "function") {
-          metadata.onGetValue<T[K]>(propertyReflect, value);
+          metadata.onGetValue<T[K]>(parent ,propertyReflect, value);
         }
       }
     }
@@ -53,9 +50,9 @@ export class InstanceReflect<
       const propertyReflectMetadata = propertyReflect.metadata;
       const length = propertyReflectMetadata.length;
       for (let i = 0; i < length; i++) {
-        const metadata = propertyReflect.metadata[i].metadata;
+        const metadata = propertyReflect.metadata[i];
         if (typeof metadata.onSetValue === "function") {
-          this.metadata[fieldName] = metadata.onSetValue<T[K]>(propertyReflect, value);
+          this.metadata[fieldName] = metadata.onSetValue<T[K]>(parent, propertyReflect, value);
         }
       }
     } else {
@@ -66,65 +63,66 @@ export class InstanceReflect<
   /**
    * 调用实例方法
    * @param memberName 成员名称
-   * @param positionalArguments 参数
+   * @param positionalArgumentsCallback 参数
    */
-  public async invoke<K extends keyof T, V>(memberName: K, positionalArguments: InvokeFunParameters<T[K]> | PositionalArgumentsCallback): Promise<void | V> {
+  public async invoke<K extends keyof T, V>(memberName: K): Promise<void | V> {
+    const func = this.metadata[memberName];
     const {parent} = this;
-    const method = this.metadata[memberName];
-    if (typeof method === "function") {
-      // 如果是由 ClassReflect 创建的实例
-      // metadata是一个类的实例
-      const methodReflect = parent.instanceMembers.get(memberName as string) || parent.staticMembers.get(memberName as string);
-      if (methodReflect instanceof MethodReflect) {
-        const methodReflectMetadata = methodReflect.metadata;
-        const length = methodReflectMetadata.length;
-        if (positionalArguments instanceof Array) {
-          if (positionalArguments.length !== methodReflect.parameters.length) {
-            throw new Error(`${memberName} function, Expected ${methodReflect.parameters.length} arguments, but got ${positionalArguments.length}.`)
-          }
 
-          // 调用参数装饰器钩子
-          // @ts-ignore
-          positionalArguments = methodReflect.parameters.map((parameterReflect, i) => {
-            // @ts-ignore
-            let value: T[K] = positionalArguments[i] as T[K];
-            parameterReflect.metadata.forEach((instanceReflect) => {
-              if (typeof instanceReflect.metadata.onInject === "function") {
-                value = instanceReflect.metadata.onInject(parameterReflect, value);
-              }
-            });
-            return value;
-          });
-        } else {
-          // @ts-ignore
-          positionalArguments = positionalArguments(parent, methodReflect.parameters);
+    // 检测是否为函数
+    if (typeof func !== "function") throw new Error(`The member "${memberName}", is not function.`);
+    // 检测classReflect是否存在
+    if (!parent) throw new Error(`This reflect is not parent.`);
 
-          methodReflect.parameters.forEach((parameterReflect, i) => {
-            // @ts-ignore
-            positionalArguments = parameterReflect.metadata.map((instanceReflect) => {
-              // @ts-ignore
-              let value: T[K] = positionalArguments[i] as T[K];
-              parameterReflect.metadata.forEach((instanceReflect) => {
-                if (typeof instanceReflect.metadata.onInject === "function") {
-                  value = instanceReflect.metadata.onInject(parameterReflect, value);
-                }
-              });
-              return value;
-            });
-          });
-        }
-        let result: V = await method.apply(this, positionalArguments);
-        // 调用方法上 方法装饰器的钩子
-        for (let i = 0; i < length; i++) {
-          const {metadata} = methodReflectMetadata[i];
-          if (typeof metadata.onInvoked === "function") {
-            result = await metadata.onInvoked<V>(methodReflect, result);
+    // 获取方法的反射对象
+    const methodReflect = parent.instanceMembers.get(<string>memberName) || parent.staticMembers.get(<string>memberName);
+    // 判断反射对象是否存在
+    if (methodReflect instanceof MethodReflect) {
+      // 函数调用时的参数列表
+      let args: any[] = [];
+      // 函数执行后的返回值
+      let value: any = undefined;
+
+      // 方法反射对象上的 参数装饰器列表
+      const parameters = methodReflect.parameters;
+      const parameterLength = parameters.length;
+      for (let i = 0; i < parameterLength; i++) {
+        let v: any = undefined;
+        const parameterReflect: ParameterReflect = parameters[i];
+        const prms = parameterReflect.metadata;
+        const prmsLength = prms.length;
+        for (let a = 0; a < prmsLength; a++) {
+          const ir = prms[a];
+          if (ir instanceof AbstractParameterDecorator) {
+            // 如果不存在钩子 直接跳出
+            if(!(typeof ir.onInject === "function")) return;
+            v = await ir.onInject(parent, methodReflect, this, parameterReflect, v);
           }
         }
-        return result;
+        args[i] = v;
       }
-      return await method.apply(this, positionalArguments);
+
+      // 执行所有函数
+      value = func.apply(this.metadata, args);
+
+      // MethodReflect上的所有装饰器元数据列表
+      const methodReflectMetadata = methodReflect.metadata;
+      // MethodReflect上的所有装饰器元数据总数
+      const mrLength = methodReflectMetadata.length;
+
+      // 遍历方法包含的装饰器
+      for (let i = 0; i < mrLength; i++) {
+        const methodDecorator = methodReflectMetadata[i];
+        if (methodDecorator instanceof AbstractMethodDecorator) {
+          if (typeof methodDecorator.onInvoked === "function") {
+            value = await methodDecorator.onInvoked(parent, methodReflect, this, value);
+          }
+        }
+      }
+
     }
+
+    return func.apply(this.metadata, []);
   }
 
   /**
@@ -134,6 +132,19 @@ export class InstanceReflect<
   public instanceOf<T extends Function>(other: T): boolean {
     return this.metadata instanceof other;
   }
+
+  static create<T extends object>(metadata: T): InstanceReflect<T> {
+    // 添加缓存处理
+    const instance = instanceReflectCache.get(metadata) || new InstanceReflect<T>(metadata);
+    instanceReflectCache.set(metadata, instance);
+    return instance;
+  }
 }
 
-type InvokeFunParameters<V> = V extends (...args: any[]) => any ? Parameters<V> : never;
+/**
+ * 映射实例
+ * @param o
+ */
+export function reflectInstance<T extends object>(o: T): InstanceReflect<T> | undefined {
+  return instanceReflectCache.get(o);
+}

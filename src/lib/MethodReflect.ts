@@ -1,22 +1,24 @@
 import {ClassReflect} from "./ClassReflect";
-import {InstanceReflect} from "./InstanceReflect";
 import {ParameterReflect} from "./ParameterReflect";
-import {SystemReflectKeys} from "./SystemReflectKeys";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
-import {MethodSet} from "./MethodSet";
+import {parseMethodReflectMetadata, parseMethodReflectParameters, parseMethodReflectReturnType} from "./funcs/public";
+import {InstanceReflect} from "./InstanceReflect";
+import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
+
+const methodReflectCache: Map<ClassReflect, Map<string|symbol, MethodReflect>> = new Map();
 
 export class MethodReflect<R extends Function = any> {
 
-  private _metadata?: Array<InstanceReflect<AbstractMethodDecorator>>;
+  private _metadata?: Array<AbstractMethodDecorator>;
 
   /**
    * 元数据列表
    */
-  public get metadata(): Array<InstanceReflect<AbstractMethodDecorator>> {
+  public get metadata(): Array<AbstractMethodDecorator> {
     // 懒加载 缓存处理
     if (!this._metadata) {
       this._metadata = [];
-      MethodReflect.parseMetadata(this);
+      parseMethodReflectMetadata(this);
     }
     return this._metadata;
   }
@@ -36,80 +38,88 @@ export class MethodReflect<R extends Function = any> {
 
   public returnType: R;
 
-  constructor(
+  protected constructor(
     public parent: ClassReflect<any>,
     public propertyKey: string | symbol,
-    public isStatic: boolean = false,
+    public isStatic: boolean = false
   ) {
-    // @ts-ignore
-    const target =  this.isStatic ? this.parent._target : this.getTarget();
+    const target =  this.isStatic ? this.getTarget() : this.getOwnTarget();
     if (!target) return;
-    MethodReflect.parseParameters(this);
-    MethodReflect.parseReturnType(this);
+    parseMethodReflectParameters(this);
+    parseMethodReflectReturnType(this);
     const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     if (descriptor) {
       this.isGetter = typeof descriptor.get === "function";
       this.isSetter = typeof descriptor.set === "function";
     }
-
   }
 
   public getTarget() {
     return this.parent.getTarget();
   }
-
-  static parseMetadata(methodReflect: MethodReflect): void {
-    // @ts-ignore
-    const target =  methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-    const methodSet = AbstractMethodDecorator.getMetadata(target, methodReflect.propertyKey);
-    if (methodSet instanceof MethodSet) {
-      methodSet.forEach(metadata => {
-        methodReflect.metadata.push(new InstanceReflect<AbstractMethodDecorator>(metadata));
-      });
-    }
+  public getOwnTarget() {
+    return this.parent.getOwnTarget();
   }
 
-  static parseParameters(methodReflect: MethodReflect): void {
-    // @ts-ignore
-    const target =  methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-    const propertyKey = methodReflect.propertyKey;
-    let paramTypes: Function[] = [];
+  public mapParameters(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, callback: MethodReflectMapParameterCallback) {
+    const params: any[] = [];
+    const parameters = this.parameters;
+    const length = parameters.length;
+    for(let i = 0; i < length; i++) {
 
-    // 如果不是构造函数
-    if (!methodReflect.isConstructor) {
-      paramTypes = Reflect.getMetadata(
-        SystemReflectKeys.ParamTypes,
-        target,
-        propertyKey,
-      );
-
-    } else {
-      // 构造函数 不需要 propertyKey
-      // 构造函数  target 不能用 `prototype`
-      paramTypes = Reflect.getMetadata(
-        SystemReflectKeys.ParamTypes,
-        // @ts-ignore
-        methodReflect.parent._target,
-      );
-    }
-    if (paramTypes) {
-      paramTypes.map((type, index) => {
-        methodReflect.parameters[index] = new ParameterReflect(
-          methodReflect,
-          type,
-          propertyKey,
-          index,
-        );
-      })
     }
   }
+  public async handlerInject<T>(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, value: T): Promise<T> {
+    const parameters = this.parameters;
+    const length = parameters.length;
 
-  static parseReturnType(methodReflect: MethodReflect): void {
-    // @ts-ignore
-    const target =  methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-    const returnType = Reflect.getMetadata(SystemReflectKeys.ReturnType, target, methodReflect.propertyKey);
-    if (returnType) {
-      methodReflect.returnType = returnType;
+    for (let i = 0; i < length; i++) {
+       const parameterReflect = parameters[i];
+       if (parameterReflect instanceof ParameterReflect) {
+         value = await parameterReflect.handlerInject(classReflect, this, instanceReflect, parameterReflect, value);
+       }
     }
+    return value;
   }
+
+  /**
+   * 处理函数调用后的元数据回调
+   * @param classReflect
+   * @param instanceReflect
+   * @param value
+   */
+  public async handlerReturn<T>(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, value: T): Promise<T> {
+    const metadata = this.metadata;
+    const length = metadata.length;
+    for (let i = 0; i < length; i++) {
+      const methodDecorator = metadata[i];
+      if (methodDecorator instanceof  AbstractMethodDecorator && typeof methodDecorator.onInvoked === "function") {
+        value = await methodDecorator.onInvoked<T>(classReflect, this, instanceReflect, value);
+      }
+    }
+    return value;
+  }
+
+  static create<R extends Function = any>(parent: ClassReflect<any>, propertyKey: string | symbol, isStatic: boolean = false): MethodReflect<R> {
+    // 添加缓存处理
+    const methodReflectMaps = methodReflectCache.get(parent) || new Map<string|symbol, MethodReflect>();
+    const methodReflect = methodReflectMaps.get(propertyKey) || new MethodReflect<any>(parent, propertyKey, isStatic);
+    methodReflectMaps.set(propertyKey, methodReflect);
+    methodReflectCache.set(parent, methodReflectMaps);
+    return methodReflect;
+  }
+}
+
+export interface MethodReflectMapParameterCallback<T = any> {
+  async (): Promise<T>;
+}
+
+/**
+ * 映射方法
+ * @param classReflect 类映射对象
+ * @param key 方法的名称
+ */
+export function reflectMethod<T extends Function = any>(classReflect: ClassReflect, key: string | symbol): MethodReflect<T> | undefined {
+  const maps = methodReflectCache.get(classReflect);
+  if (maps) return maps.get(key);
 }

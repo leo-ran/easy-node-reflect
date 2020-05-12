@@ -1,10 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const InstanceReflect_1 = require("./InstanceReflect");
-const ParameterReflect_1 = require("./ParameterReflect");
-const SystemReflectKeys_1 = require("./SystemReflectKeys");
-const AbstractMethodDecorator_1 = require("./AbstractMethodDecorator");
-const MethodSet_1 = require("./MethodSet");
+const public_1 = require("./funcs/public");
+const methodReflectCache = new Map();
 class MethodReflect {
     constructor(parent, propertyKey, isStatic = false) {
         this.parent = parent;
@@ -17,12 +14,11 @@ class MethodReflect {
          * 参数列表
          */
         this.parameters = [];
-        // @ts-ignore
-        const target = this.isStatic ? this.parent._target : this.getTarget();
+        const target = this.isStatic ? this.getTarget() : this.getOwnTarget();
         if (!target)
             return;
-        MethodReflect.parseParameters(this);
-        MethodReflect.parseReturnType(this);
+        public_1.parseMethodReflectParameters(this);
+        public_1.parseMethodReflectReturnType(this);
         const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
         if (descriptor) {
             this.isGetter = typeof descriptor.get === "function";
@@ -36,7 +32,7 @@ class MethodReflect {
         // 懒加载 缓存处理
         if (!this._metadata) {
             this._metadata = [];
-            MethodReflect.parseMetadata(this);
+            public_1.parseMethodReflectMetadata(this);
         }
         return this._metadata;
     }
@@ -46,45 +42,27 @@ class MethodReflect {
     getTarget() {
         return this.parent.getTarget();
     }
-    static parseMetadata(methodReflect) {
-        // @ts-ignore
-        const target = methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-        const methodSet = AbstractMethodDecorator_1.AbstractMethodDecorator.getMetadata(target, methodReflect.propertyKey);
-        if (methodSet instanceof MethodSet_1.MethodSet) {
-            methodSet.forEach(metadata => {
-                methodReflect.metadata.push(new InstanceReflect_1.InstanceReflect(metadata));
-            });
-        }
+    getOwnTarget() {
+        return this.parent.getOwnTarget();
     }
-    static parseParameters(methodReflect) {
-        // @ts-ignore
-        const target = methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-        const propertyKey = methodReflect.propertyKey;
-        let paramTypes = [];
-        // 如果不是构造函数
-        if (!methodReflect.isConstructor) {
-            paramTypes = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.ParamTypes, target, propertyKey);
-        }
-        else {
-            // 构造函数 不需要 propertyKey
-            // 构造函数  target 不能用 `prototype`
-            paramTypes = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.ParamTypes, 
-            // @ts-ignore
-            methodReflect.parent._target);
-        }
-        if (paramTypes) {
-            paramTypes.map((type, index) => {
-                methodReflect.parameters[index] = new ParameterReflect_1.ParameterReflect(methodReflect, type, propertyKey, index);
-            });
-        }
-    }
-    static parseReturnType(methodReflect) {
-        // @ts-ignore
-        const target = methodReflect.isStatic ? methodReflect.parent._target : methodReflect.getTarget();
-        const returnType = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.ReturnType, target, methodReflect.propertyKey);
-        if (returnType) {
-            methodReflect.returnType = returnType;
-        }
+    static create(parent, propertyKey, isStatic = false) {
+        // 添加缓存处理
+        const methodReflectMaps = methodReflectCache.get(parent) || new Map();
+        const methodReflect = methodReflectMaps.get(propertyKey) || new MethodReflect(parent, propertyKey, isStatic);
+        methodReflectMaps.set(propertyKey, methodReflect);
+        methodReflectCache.set(parent, methodReflectMaps);
+        return methodReflect;
     }
 }
 exports.MethodReflect = MethodReflect;
+/**
+ * 映射方法
+ * @param classReflect 类映射对象
+ * @param key 方法的名称
+ */
+function reflectMethod(classReflect, key) {
+    const maps = methodReflectCache.get(classReflect);
+    if (maps)
+        return maps.get(key);
+}
+exports.reflectMethod = reflectMethod;

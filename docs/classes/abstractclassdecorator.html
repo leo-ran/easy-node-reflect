@@ -112,7 +112,7 @@
 					<div class="tsd-signature tsd-kind-icon">_targets<span class="tsd-signature-symbol">:</span> <a href="targetmap.html" class="tsd-signature-type">TargetMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">, </span><a href="methodset.html" class="tsd-signature-type">MethodSet</a><span class="tsd-signature-symbol">&lt;</span><a href="abstractclassdecorator.html" class="tsd-signature-type">AbstractClassDecorator</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new TargetMap()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L51">src/lib/AbstractClassDecorator.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L46">src/lib/AbstractClassDecorator.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -123,13 +123,13 @@
 					<a name="onnewinstance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>New<wbr>Instance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>New<wbr>Instance&lt;R&gt;<span class="tsd-signature-symbol">(</span>methodReflect<span class="tsd-signature-symbol">: </span><a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span>, classReflect<span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="injectmap.html" class="tsd-signature-type">InjectMap</a></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>New<wbr>Instance&lt;R&gt;<span class="tsd-signature-symbol">(</span>classReflect<span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a>, methodReflect<span class="tsd-signature-symbol">: </span><a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L32">src/lib/AbstractClassDecorator.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L27">src/lib/AbstractClassDecorator.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,20 +147,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>methodReflect: <a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>构造函数的函数反射对象</p>
-									</div>
-								</li>
-								<li>
 									<h5>classReflect: <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>当前类的 类映射对象</p>
 									</div>
 								</li>
+								<li>
+									<h5>methodReflect: <a href="methodreflect.html" class="tsd-signature-type">MethodReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>构造函数的函数反射对象</p>
+									</div>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="injectmap.html" class="tsd-signature-type">InjectMap</a></h4>
-							<p>InjectMap 返回构造函数的注入映射关系map</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -168,13 +167,13 @@
 					<a name="onnewinstanced" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>New<wbr>Instanced</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>New<wbr>Instanced&lt;T&gt;<span class="tsd-signature-symbol">(</span>instance<span class="tsd-signature-symbol">: </span><a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, classReflect<span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>New<wbr>Instanced&lt;T&gt;<span class="tsd-signature-symbol">(</span>classReflect<span class="tsd-signature-symbol">: </span><a href="classreflect.html" class="tsd-signature-type">ClassReflect</a>, instance<span class="tsd-signature-symbol">: </span><a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L23">src/lib/AbstractClassDecorator.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L19">src/lib/AbstractClassDecorator.ts:19</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -191,13 +190,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>instance: <a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
 									<h5>classReflect: <a href="classreflect.html" class="tsd-signature-type">ClassReflect</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>当前类的 类映射对象</p>
 									</div>
+								</li>
+								<li>
+									<h5>instance: <a href="instancereflect.html" class="tsd-signature-type">InstanceReflect</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -214,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L34">src/lib/AbstractClassDecorator.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L29">src/lib/AbstractClassDecorator.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -246,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L58">src/lib/AbstractClassDecorator.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L53">src/lib/AbstractClassDecorator.ts:53</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/14b5b47/src/lib/AbstractClassDecorator.ts#L70">src/lib/AbstractClassDecorator.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/leo-ran/easy-node-reflect/blob/6a5382c/src/lib/AbstractClassDecorator.ts#L65">src/lib/AbstractClassDecorator.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,9 +323,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/systemreflectkeys.html" class="tsd-kind-icon">System<wbr>Reflect<wbr>Keys</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -354,102 +350,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="abstractmethoddecorator.html" class="tsd-kind-icon">Abstract<wbr>Method<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="abstractparameterdecorator.html" class="tsd-kind-icon">Abstract<wbr>Parameter<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="abstractpropertydecorator.html" class="tsd-kind-icon">Abstract<wbr>Property<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classreflect.html" class="tsd-kind-icon">Class<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classset.html" class="tsd-kind-icon">Class<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="injectmap.html" class="tsd-kind-icon">Inject<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="instancereflect.html" class="tsd-kind-icon">Instance<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="methodmap.html" class="tsd-kind-icon">Method<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="methodreflect.html" class="tsd-kind-icon">Method<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="methodset.html" class="tsd-kind-icon">Method<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="parametermap.html" class="tsd-kind-icon">Parameter<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="parameterreflect.html" class="tsd-kind-icon">Parameter<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="parameterset.html" class="tsd-kind-icon">Parameter<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="propertymap.html" class="tsd-kind-icon">Property<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="propertyreflect.html" class="tsd-kind-icon">Property<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="propertyset.html" class="tsd-kind-icon">Property<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="targetmap.html" class="tsd-kind-icon">Target<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/baseconstructor.html" class="tsd-kind-icon">Base<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/classdecoratorconstructor.html" class="tsd-kind-icon">Class<wbr>Decorator<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/decoratorfactory.html" class="tsd-kind-icon">Decorator<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/methoddecoratorconstructor.html" class="tsd-kind-icon">Method<wbr>Decorator<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/parameterdecoratorconstructor.html" class="tsd-kind-icon">Parameter<wbr>Decorator<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/propertydecoratorconstructor.html" class="tsd-kind-icon">Property<wbr>Decorator<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#basedecorator" class="tsd-kind-icon">Base<wbr>Decorator</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#basereflect" class="tsd-kind-icon">Base<wbr>Reflect</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../globals.html#invokefunparameters" class="tsd-kind-icon">Invoke<wbr>Fun<wbr>Parameters</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#newinstancecallback" class="tsd-kind-icon">New<wbr>Instance<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#positionalargumentscallback" class="tsd-kind-icon">Positional<wbr>Arguments<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#module" class="tsd-kind-icon">Module</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#classreflects" class="tsd-kind-icon">class<wbr>Reflects</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="../globals.html#idebuglog" class="tsd-kind-icon">i<wbr>Debuglog</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="../globals.html#reflectclass" class="tsd-kind-icon">reflect<wbr>Class</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -474,11 +374,10 @@
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 			</ul>
 		</div>
 	</div>

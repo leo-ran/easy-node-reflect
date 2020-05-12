@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const InstanceReflect_1 = require("./InstanceReflect");
-const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
-const ParameterSet_1 = require("./ParameterSet");
+const public_1 = require("./funcs/public");
+const parameterReflectCache = new Map();
 class ParameterReflect {
     constructor(parent, type, propertyKey, parameterIndex) {
         this.parent = parent;
@@ -17,20 +16,33 @@ class ParameterReflect {
         // 懒加载 缓存处理
         if (!this._metadata) {
             this._metadata = [];
-            ParameterReflect.parseMetadata(this);
+            public_1.parseParameterMetadata(this);
         }
         return this._metadata;
     }
     getTarget() {
         return this.parent.getTarget();
     }
-    static parseMetadata(parameterReflect) {
-        const parameterSet = AbstractParameterDecorator_1.AbstractParameterDecorator.getMetadata(parameterReflect.getTarget(), parameterReflect.propertyKey, parameterReflect.parameterIndex);
-        if (parameterSet instanceof ParameterSet_1.ParameterSet) {
-            parameterReflect.metadata = Array.from(parameterSet).map((item) => {
-                return new InstanceReflect_1.InstanceReflect(item);
-            });
-        }
+    getOwnTarget() {
+        return this.parent.getOwnTarget();
+    }
+    static create(parent, type, propertyKey, parameterIndex) {
+        const parameterReflectMaps = parameterReflectCache.get(parent) || new Map();
+        const parameterReflect = parameterReflectMaps.get(parameterIndex) || new ParameterReflect(parent, type, propertyKey, parameterIndex);
+        parameterReflectMaps.set(parameterIndex, parameterReflect);
+        parameterReflectCache.set(parent, parameterReflectMaps);
+        return parameterReflect;
     }
 }
 exports.ParameterReflect = ParameterReflect;
+/**
+ * 参数映射
+ * @param methodReflect 方法元数据映射对象
+ * @param index 参数的序号
+ */
+function reflectParameter(methodReflect, index) {
+    const maps = parameterReflectCache.get(methodReflect);
+    if (maps)
+        return maps.get(index);
+}
+exports.reflectParameter = reflectParameter;

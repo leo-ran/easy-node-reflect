@@ -6,6 +6,7 @@ import {ClassReflect} from "./lib/ClassReflect";
 import {MethodReflect} from "./lib/MethodReflect";
 import {PropertyReflect} from "./lib/PropertyReflect";
 import {ParameterReflect} from "./lib/ParameterReflect";
+import {InstanceReflect} from "./lib/InstanceReflect";
 
 export interface DecoratorFactory<
   P extends any[],
@@ -23,7 +24,5 @@ export interface BaseConstructor {
 
 export type BaseDecorator = AbstractClassDecorator | AbstractParameterDecorator | AbstractMethodDecorator | AbstractPropertyDecorator;
 export type BaseReflect = ClassReflect | MethodReflect | PropertyReflect | ParameterReflect;
-
 export type NewInstanceCallback = <T extends BaseConstructor>(classReflect: ClassReflect<T>, parameters: ParameterReflect<any>[]) => any[];
-
-export type PositionalArgumentsCallback = NewInstanceCallback;
+export type PositionalArgumentsCallback = <T extends BaseConstructor>(classReflect: ClassReflect<T>, methodReflect: MethodReflect, instanceReflect: InstanceReflect<any>,  parameters: ParameterReflect<any>) => any[];

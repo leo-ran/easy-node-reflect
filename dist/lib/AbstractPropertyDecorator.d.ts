@@ -1,6 +1,7 @@
 import { DecoratorFactory } from "../interface";
 import { PropertySet } from "./PropertySet";
 import { PropertyReflect } from "./PropertyReflect";
+import { ClassReflect } from "./ClassReflect";
 /**
  * 抽象属性装饰器类
  */
@@ -8,19 +9,20 @@ export declare abstract class AbstractPropertyDecorator {
     /**
      * 当此属性装饰器 被装饰的属性设置属性值时 触发
      * 不支持异步
-     *
+     * @param classReflect 属性所在类的元数据映射
      * @param propertyReflect 属性元数据映射
      * @param value 设置的值
      * @return T 返回 设置的值 或 更新设置的值
      */
-    onSetValue?<T>(propertyReflect: PropertyReflect<any>, value: T): T;
+    onSetValue?<T>(classReflect: ClassReflect, propertyReflect: PropertyReflect<any>, value: T): T;
     /**
      * 当此属性装饰器 被装饰的属性获取属性值时 触发
      * 不支持异步
+     * @param classReflect 属性所在类的元数据映射
      * @param propertyReflect 属性元数据映射
      * @param value 设置的值
      */
-    onGetValue?<T>(propertyReflect: PropertyReflect<any>, value: T): void;
+    onGetValue?<T>(classReflect: ClassReflect, propertyReflect: PropertyReflect<any>, value: T): void;
     propertyKey?: string | symbol;
     setPropertyKey(propertyKey: string | symbol): this;
     static create<P extends any[], T extends PropertyDecoratorConstructor<P>>(IDecorator: PropertyDecoratorConstructor<P> & T): DecoratorFactory<P, PropertyDecorator, T>;

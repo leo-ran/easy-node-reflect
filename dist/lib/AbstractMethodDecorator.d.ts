@@ -1,6 +1,8 @@
 import { DecoratorFactory } from "../interface";
 import { MethodSet } from "./MethodSet";
 import { MethodReflect } from "./MethodReflect";
+import { InstanceReflect } from "./InstanceReflect";
+import { ClassReflect } from "./ClassReflect";
 /**
  * 抽象方法装饰器类
  */
@@ -17,7 +19,7 @@ export declare abstract class AbstractMethodDecorator<T = any> {
      * @param value 该方法运行后的返回值
      * @return T 返回新的value
      */
-    onInvoked?<V>(methodReflect: MethodReflect<any>, value: V): V | Promise<V>;
+    onInvoked?<V>(classReflect: ClassReflect, methodReflect: MethodReflect<any>, instanceReflect: InstanceReflect<any>, value: V): V | Promise<V>;
     static create<P extends any[], T extends MethodDecoratorConstructor<P>>(IDecorator: MethodDecoratorConstructor<P> & T): DecoratorFactory<P, MethodDecorator, T>;
     private static _targets;
     /**

@@ -23,10 +23,8 @@ export * from "./lib/ParameterSet";
 export * from "./lib/PropertySet";
 
 export * from "./lib/TargetMap";
-export * from "./lib/InjectMap";
 export * from "./lib/MethodMap";
 export * from "./lib/ParameterMap";
 export * from "./lib/PropertyMap";
 
 export * from "./interface";
-export * from "./lib/funcs/reflectClass";

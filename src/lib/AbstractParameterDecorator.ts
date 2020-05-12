@@ -4,13 +4,24 @@ import {TargetMap} from "./TargetMap";
 import {ParameterMap} from "./ParameterMap";
 import {MethodMap} from "./MethodMap";
 import {ParameterReflect} from "./ParameterReflect";
+import {ClassReflect} from "./ClassReflect";
+import {MethodReflect} from "./MethodReflect";
+import {InstanceReflect} from "./InstanceReflect";
 
 /**
  * 抽象参数装饰器类
  */
 export abstract class AbstractParameterDecorator {
 
-  public onInject?<T>(parameterReflect: ParameterReflect, value: T): T;
+  /**
+   * 注入参数时的回调
+   * @param classReflect
+   * @param methodReflect
+   * @param instanceReflect
+   * @param parameterReflect
+   * @param value
+   */
+  public async onInject?<T>(classReflect: ClassReflect, methodReflect: MethodReflect, instanceReflect: InstanceReflect<any> | null, parameterReflect: ParameterReflect, value: T): Promise<T>;
 
   public parameterIndex?: number;
   public propertyKey?: string | symbol;

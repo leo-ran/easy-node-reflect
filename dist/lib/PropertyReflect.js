@@ -1,15 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const InstanceReflect_1 = require("./InstanceReflect");
-const AbstractPropertyDecorator_1 = require("./AbstractPropertyDecorator");
-const PropertySet_1 = require("./PropertySet");
-const SystemReflectKeys_1 = require("./SystemReflectKeys");
+const public_1 = require("./funcs/public");
+const propertyReflectCache = new Map();
 class PropertyReflect {
     constructor(parent, propertyKey, isStatic = false) {
         this.parent = parent;
         this.propertyKey = propertyKey;
         this.isStatic = isStatic;
-        PropertyReflect.parseType(this);
+        public_1.parsePropertyReflectType(this);
     }
     set metadata(value) {
         this._metadata = value;
@@ -17,32 +15,34 @@ class PropertyReflect {
     get metadata() {
         if (!this._metadata) {
             this._metadata = [];
-            PropertyReflect.parseMetadata(this);
+            public_1.parsePropertyReflectMetadata(this);
         }
         return this._metadata;
     }
     getTarget() {
         return this.parent.getTarget();
     }
-    static parseMetadata(propertyReflect) {
-        // @ts-ignore
-        const target = propertyReflect.isStatic ? propertyReflect.parent._target : propertyReflect.getTarget();
-        const propertySet = AbstractPropertyDecorator_1.AbstractPropertyDecorator.getMetadata(target, propertyReflect.propertyKey);
-        if (propertySet instanceof PropertySet_1.PropertySet) {
-            propertyReflect.metadata = Array.from(propertySet).map(item => {
-                return new InstanceReflect_1.InstanceReflect(item);
-            });
-        }
+    getOwnTarget() {
+        return this.parent.getOwnTarget();
     }
-    static parseType(propertyReflect) {
-        // @ts-ignore
-        const target = propertyReflect.isStatic ? propertyReflect.parent._target : propertyReflect.getTarget();
-        if (!target)
-            return;
-        const type = Reflect.getMetadata(SystemReflectKeys_1.SystemReflectKeys.Type, target, propertyReflect.propertyKey);
-        if (type) {
-            propertyReflect.type = type;
-        }
+    static create(parent, propertyKey, isStatic = false) {
+        // 添加缓存处理
+        const propertyReflectMaps = propertyReflectCache.get(parent) || new Map();
+        const propertyReflect = propertyReflectMaps.get(propertyKey) || new PropertyReflect(parent, propertyKey, isStatic);
+        propertyReflectMaps.set(propertyKey, propertyReflect);
+        propertyReflectCache.set(parent, propertyReflectMaps);
+        return propertyReflect;
     }
 }
 exports.PropertyReflect = PropertyReflect;
+/**
+ * 属性映射
+ * @param classReflect 类元数据映射对象
+ * @param key 属性的名称
+ */
+function reflectProperty(classReflect, key) {
+    const maps = propertyReflectCache.get(classReflect);
+    if (maps)
+        return maps.get(key);
+}
+exports.reflectProperty = reflectProperty;

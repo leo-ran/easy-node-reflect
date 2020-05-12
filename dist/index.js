@@ -24,8 +24,6 @@ __export(require("./lib/MethodSet"));
 __export(require("./lib/ParameterSet"));
 __export(require("./lib/PropertySet"));
 __export(require("./lib/TargetMap"));
-__export(require("./lib/InjectMap"));
 __export(require("./lib/MethodMap"));
 __export(require("./lib/ParameterMap"));
 __export(require("./lib/PropertyMap"));
-__export(require("./lib/funcs/reflectClass"));

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const TargetMap_1 = require("./TargetMap");
 const ClassSet_1 = require("./ClassSet");
+const ClassReflect_1 = require("./ClassReflect");
 /**
  * 抽象类装饰器类
  */
@@ -36,3 +37,7 @@ class AbstractClassDecorator {
 }
 exports.AbstractClassDecorator = AbstractClassDecorator;
 AbstractClassDecorator._targets = new TargetMap_1.TargetMap();
+function reflectClass(target, parent) {
+    return ClassReflect_1.ClassReflect.create(target, parent);
+}
+exports.reflectClass = reflectClass;

@@ -1,10 +1,13 @@
 import {MethodReflect} from "./MethodReflect";
-import {InstanceReflect} from "./InstanceReflect";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
-import {ParameterSet} from "./ParameterSet";
+import {parseParameterMetadata} from "./funcs/public";
+import {ClassReflect} from "./ClassReflect";
+import {InstanceReflect} from "./InstanceReflect";
+
+const parameterReflectCache: Map<MethodReflect, Map<number, ParameterReflect>> = new Map();
 
 export class ParameterReflect<T = any> {
-  private _metadata?: Array<InstanceReflect<AbstractParameterDecorator>>;
+  private _metadata?: Array<AbstractParameterDecorator>;
   public constructor(
     public parent: MethodReflect,
     public type: T,
@@ -16,11 +19,11 @@ export class ParameterReflect<T = any> {
     this._metadata = value;
   }
 
-  public get metadata(): Array<InstanceReflect<AbstractParameterDecorator>> {
+  public get metadata(): Array<AbstractParameterDecorator> {
     // 懒加载 缓存处理
     if (!this._metadata) {
       this._metadata = [];
-      ParameterReflect.parseMetadata(this)
+      parseParameterMetadata(this)
     }
     return this._metadata;
   }
@@ -29,16 +32,54 @@ export class ParameterReflect<T = any> {
     return this.parent.getTarget();
   }
 
-  static parseMetadata(parameterReflect: ParameterReflect) {
-    const parameterSet = AbstractParameterDecorator.getMetadata(
-      parameterReflect.getTarget(),
-      parameterReflect.propertyKey,
-      parameterReflect.parameterIndex,
-    );
-    if (parameterSet instanceof ParameterSet) {
-      parameterReflect.metadata = Array.from(parameterSet).map((item) => {
-        return new InstanceReflect<AbstractParameterDecorator>(item);
-      })
-    }
+  public getOwnTarget() {
+    return this.parent.getOwnTarget();
   }
+
+  /**
+   * 处理注入钩子回调
+   * @param classReflect
+   * @param methodReflect
+   * @param instanceReflect
+   * @param parameterReflect
+   * @param value
+   */
+  public async handlerInject<T>(classReflect: ClassReflect, methodReflect: MethodReflect, instanceReflect: InstanceReflect<any> | null, value: T): Promise<T> {
+    const length = this.metadata.length;
+    const metadata = this.metadata;
+    for (let i = 0; i < length; i++) {
+      const parameterDecorator = metadata[i]
+      if (parameterDecorator instanceof AbstractParameterDecorator && typeof parameterDecorator.onInject === "function") {
+        value = await parameterDecorator.onInject<T>(classReflect, methodReflect,instanceReflect, this, value);
+      }
+    }
+    return value;
+  }
+
+  static create<T = any>(
+    parent: MethodReflect,
+    type: T,
+    propertyKey: string | symbol,
+    parameterIndex: number
+  ): ParameterReflect<T> {
+    const parameterReflectMaps = parameterReflectCache.get(parent) || new Map();
+    const parameterReflect = parameterReflectMaps.get(parameterIndex) || new ParameterReflect<T>(parent, type, propertyKey, parameterIndex);
+    parameterReflectMaps.set(parameterIndex, parameterReflect);
+    parameterReflectCache.set(parent, parameterReflectMaps);
+    return parameterReflect;
+  }
+}
+
+/**
+ * 参数映射
+ * @param methodReflect 方法元数据映射对象
+ * @param index 参数的序号
+ */
+export function reflectParameter<T = any>(methodReflect: MethodReflect, index: number): ParameterReflect<T> | undefined {
+  const maps = parameterReflectCache.get(methodReflect);
+  if (maps) return maps.get(index);
+}
+
+export interface MapParameterDecoratorCallback {
+  <T>(parameterReflect: ParameterReflect): void;
 }

@@ -1,13 +1,9 @@
-import {BaseConstructor, BaseDecorator, DecoratorFactory} from "../interface";
+import {BaseConstructor, DecoratorFactory} from "../interface";
 import {TargetMap} from "./TargetMap";
 import {MethodSet} from "./MethodSet";
 import {ClassSet} from "./ClassSet";
 import {InstanceReflect} from "./InstanceReflect";
-import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
-import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
-import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {MethodReflect} from "./MethodReflect";
-import {InjectMap} from "./InjectMap";
 import {ClassReflect} from "./ClassReflect";
 
 /**
@@ -20,16 +16,15 @@ export abstract class AbstractClassDecorator {
    * @param instanceReflect 类实例化后的 实例反射对象
    * @param classReflect 当前类的 类映射对象
    */
-  public onNewInstanced?<T extends object>(instance: InstanceReflect<T>, classReflect: ClassReflect): void;
+  public onNewInstanced?<T extends object>(classReflect: ClassReflect, instance: InstanceReflect<T>): void;
 
   /**
    * 当被此装饰器装饰的类实例化时 触发
    * 不支持异步
-   * @param methodReflect 构造函数的函数反射对象
    * @param classReflect 当前类的 类映射对象
-   * @return InjectMap 返回构造函数的注入映射关系map
+   * @param constructorMethodReflect 构造函数的函数反射对象
    */
-  public onNewInstance?<R extends Function>(methodReflect: MethodReflect<R>, classReflect: ClassReflect): InjectMap;
+  public onNewInstance?<R extends Function>(classReflect: ClassReflect, constructorMethodReflect: MethodReflect<R>): void;
 
   static create<
     P extends any[],
@@ -74,4 +69,8 @@ export abstract class AbstractClassDecorator {
 
 export interface ClassDecoratorConstructor<P extends any[]> {
   new (...args: P): AbstractClassDecorator;
+}
+
+export function reflectClass<T extends BaseConstructor>(target: T, parent?: ClassReflect): ClassReflect<T> {
+  return  ClassReflect.create<T>(target, parent);
 }

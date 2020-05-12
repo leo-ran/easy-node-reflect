@@ -1,13 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const ClassReflect_1 = require("./ClassReflect");
 const MethodReflect_1 = require("./MethodReflect");
 const PropertyReflect_1 = require("./PropertyReflect");
-const reflectClass_1 = require("./funcs/reflectClass");
+const AbstractMethodDecorator_1 = require("./AbstractMethodDecorator");
+const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
+const instanceReflectCache = new Map();
 class InstanceReflect {
     constructor(metadata) {
         this.metadata = metadata;
         // @ts-ignore
-        this.parent = reflectClass_1.reflectClass(metadata.__proto__);
+        this.parent = ClassReflect_1.ClassReflect.create(metadata.__proto__);
     }
     /**
      * Get metadata member value.
@@ -21,9 +24,9 @@ class InstanceReflect {
             const propertyReflectMetadata = propertyReflect.metadata;
             const length = propertyReflectMetadata.length;
             for (let i = 0; i < length; i++) {
-                const metadata = propertyReflect.metadata[i].metadata;
+                const metadata = propertyReflect.metadata[i];
                 if (typeof metadata.onGetValue === "function") {
-                    metadata.onGetValue(propertyReflect, value);
+                    metadata.onGetValue(parent, propertyReflect, value);
                 }
             }
         }
@@ -41,9 +44,9 @@ class InstanceReflect {
             const propertyReflectMetadata = propertyReflect.metadata;
             const length = propertyReflectMetadata.length;
             for (let i = 0; i < length; i++) {
-                const metadata = propertyReflect.metadata[i].metadata;
+                const metadata = propertyReflect.metadata[i];
                 if (typeof metadata.onSetValue === "function") {
-                    this.metadata[fieldName] = metadata.onSetValue(propertyReflect, value);
+                    this.metadata[fieldName] = metadata.onSetValue(parent, propertyReflect, value);
                 }
             }
         }
@@ -54,64 +57,61 @@ class InstanceReflect {
     /**
      * 调用实例方法
      * @param memberName 成员名称
-     * @param positionalArguments 参数
+     * @param positionalArgumentsCallback 参数
      */
-    async invoke(memberName, positionalArguments) {
+    async invoke(memberName) {
+        const func = this.metadata[memberName];
         const { parent } = this;
-        const method = this.metadata[memberName];
-        if (typeof method === "function") {
-            // 如果是由 ClassReflect 创建的实例
-            // metadata是一个类的实例
-            const methodReflect = parent.instanceMembers.get(memberName) || parent.staticMembers.get(memberName);
-            if (methodReflect instanceof MethodReflect_1.MethodReflect) {
-                const methodReflectMetadata = methodReflect.metadata;
-                const length = methodReflectMetadata.length;
-                if (positionalArguments instanceof Array) {
-                    if (positionalArguments.length !== methodReflect.parameters.length) {
-                        throw new Error(`${memberName} function, Expected ${methodReflect.parameters.length} arguments, but got ${positionalArguments.length}.`);
-                    }
-                    // 调用参数装饰器钩子
-                    // @ts-ignore
-                    positionalArguments = methodReflect.parameters.map((parameterReflect, i) => {
-                        // @ts-ignore
-                        let value = positionalArguments[i];
-                        parameterReflect.metadata.forEach((instanceReflect) => {
-                            if (typeof instanceReflect.metadata.onInject === "function") {
-                                value = instanceReflect.metadata.onInject(parameterReflect, value);
-                            }
-                        });
-                        return value;
-                    });
-                }
-                else {
-                    // @ts-ignore
-                    positionalArguments = positionalArguments(parent, methodReflect.parameters);
-                    methodReflect.parameters.forEach((parameterReflect, i) => {
-                        // @ts-ignore
-                        positionalArguments = parameterReflect.metadata.map((instanceReflect) => {
-                            // @ts-ignore
-                            let value = positionalArguments[i];
-                            parameterReflect.metadata.forEach((instanceReflect) => {
-                                if (typeof instanceReflect.metadata.onInject === "function") {
-                                    value = instanceReflect.metadata.onInject(parameterReflect, value);
-                                }
-                            });
-                            return value;
-                        });
-                    });
-                }
-                let result = await method.apply(this, positionalArguments);
-                // 调用方法上 方法装饰器的钩子
-                for (let i = 0; i < length; i++) {
-                    const { metadata } = methodReflectMetadata[i];
-                    if (typeof metadata.onInvoked === "function") {
-                        result = await metadata.onInvoked(methodReflect, result);
+        // 检测是否为函数
+        if (typeof func !== "function")
+            throw new Error(`The member "${memberName}", is not function.`);
+        // 检测classReflect是否存在
+        if (!parent)
+            throw new Error(`This reflect is not parent.`);
+        // 获取方法的反射对象
+        const methodReflect = parent.instanceMembers.get(memberName) || parent.staticMembers.get(memberName);
+        // 判断反射对象是否存在
+        if (methodReflect instanceof MethodReflect_1.MethodReflect) {
+            // 函数调用时的参数列表
+            let args = [];
+            // 函数执行后的返回值
+            let value = undefined;
+            // 方法反射对象上的 参数装饰器列表
+            const parameters = methodReflect.parameters;
+            const parameterLength = parameters.length;
+            for (let i = 0; i < parameterLength; i++) {
+                let v = undefined;
+                const parameterReflect = parameters[i];
+                const prms = parameterReflect.metadata;
+                const prmsLength = prms.length;
+                for (let a = 0; a < prmsLength; a++) {
+                    const ir = prms[a];
+                    if (ir instanceof AbstractParameterDecorator_1.AbstractParameterDecorator) {
+                        // 如果不存在钩子 直接跳出
+                        if (!(typeof ir.onInject === "function"))
+                            return;
+                        v = await ir.onInject(parent, methodReflect, this, parameterReflect, v);
                     }
                 }
-                return result;
+                args[i] = v;
             }
-            return await method.apply(this, positionalArguments);
+            // 执行所有函数
+            value = func.apply(this.metadata, args);
+            // MethodReflect上的所有装饰器元数据列表
+            const methodReflectMetadata = methodReflect.metadata;
+            // MethodReflect上的所有装饰器元数据总数
+            const mrLength = methodReflectMetadata.length;
+            // 遍历方法包含的装饰器
+            for (let i = 0; i < mrLength; i++) {
+                const methodDecorator = methodReflectMetadata[i];
+                if (methodDecorator instanceof AbstractMethodDecorator_1.AbstractMethodDecorator) {
+                    if (typeof methodDecorator.onInvoked === "function") {
+                        value = await methodDecorator.onInvoked(parent, methodReflect, this, value);
+                    }
+                }
+            }
         }
+        return func.apply(this.metadata, []);
     }
     /**
      * 比较实例类型
@@ -120,5 +120,19 @@ class InstanceReflect {
     instanceOf(other) {
         return this.metadata instanceof other;
     }
+    static create(metadata) {
+        // 添加缓存处理
+        const instance = instanceReflectCache.get(metadata) || new InstanceReflect(metadata);
+        instanceReflectCache.set(metadata, instance);
+        return instance;
+    }
 }
 exports.InstanceReflect = InstanceReflect;
+/**
+ * 映射实例
+ * @param o
+ */
+function reflectInstance(o) {
+    return instanceReflectCache.get(o);
+}
+exports.reflectInstance = reflectInstance;

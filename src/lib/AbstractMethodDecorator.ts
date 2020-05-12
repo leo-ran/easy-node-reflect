@@ -3,6 +3,8 @@ import {TargetMap} from "./TargetMap";
 import {MethodSet} from "./MethodSet";
 import {MethodMap} from "./MethodMap";
 import {MethodReflect} from "./MethodReflect";
+import {InstanceReflect} from "./InstanceReflect";
+import {ClassReflect} from "./ClassReflect";
 /**
  * 抽象方法装饰器类
  */
@@ -29,7 +31,7 @@ export abstract class AbstractMethodDecorator<T = any> {
    * @param value 该方法运行后的返回值
    * @return T 返回新的value
    */
-  public onInvoked?<V>(methodReflect: MethodReflect<any> ,value: V): V | Promise<V>;
+  public onInvoked?<V>(classReflect: ClassReflect, methodReflect: MethodReflect<any>, instanceReflect: InstanceReflect<any>,value: V): V | Promise<V>;
 
   static create<
     P extends any[],

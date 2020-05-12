@@ -1,8 +1,7 @@
-import { DecoratorFactory } from "../interface";
+import { BaseConstructor, DecoratorFactory } from "../interface";
 import { ClassSet } from "./ClassSet";
 import { InstanceReflect } from "./InstanceReflect";
 import { MethodReflect } from "./MethodReflect";
-import { InjectMap } from "./InjectMap";
 import { ClassReflect } from "./ClassReflect";
 /**
  * 抽象类装饰器类
@@ -13,15 +12,14 @@ export declare abstract class AbstractClassDecorator {
      * @param instanceReflect 类实例化后的 实例反射对象
      * @param classReflect 当前类的 类映射对象
      */
-    onNewInstanced?<T extends object>(instance: InstanceReflect<T>, classReflect: ClassReflect): void;
+    onNewInstanced?<T extends object>(classReflect: ClassReflect, instance: InstanceReflect<T>): void;
     /**
      * 当被此装饰器装饰的类实例化时 触发
      * 不支持异步
-     * @param methodReflect 构造函数的函数反射对象
      * @param classReflect 当前类的 类映射对象
-     * @return InjectMap 返回构造函数的注入映射关系map
+     * @param methodReflect 构造函数的函数反射对象
      */
-    onNewInstance?<R extends Function>(methodReflect: MethodReflect<R>, classReflect: ClassReflect): InjectMap;
+    onNewInstance?<R extends Function>(classReflect: ClassReflect, methodReflect: MethodReflect<R>): void;
     static create<P extends any[], T extends ClassDecoratorConstructor<P>>(IDecorator: ClassDecoratorConstructor<P> & T): DecoratorFactory<P, ClassDecorator, T>;
     private static _targets;
     /**
@@ -38,3 +36,4 @@ export declare abstract class AbstractClassDecorator {
 export interface ClassDecoratorConstructor<P extends any[]> {
     new (...args: P): AbstractClassDecorator;
 }
+export declare function reflectClass<T extends BaseConstructor>(target: T, parent?: ClassReflect): ClassReflect<T>;

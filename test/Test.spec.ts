@@ -27,10 +27,6 @@ describe("Test.spec.ts", () => {
     assert.instanceOf(classReflect.metadata, Array);
   });
 
-  it('classReflect.provider should Map Type', function () {
-    assert.instanceOf(classReflect.provider, Map);
-  });
-
   const test = classReflect.newInstance((classReflect,parameters) => {
     return parameters.map(item => {
       return item.type;
@@ -39,12 +35,6 @@ describe("Test.spec.ts", () => {
 
   it('test instance should InstanceReflect<Test> Type', function () {
     assert.instanceOf(test, InstanceReflect);
-  });
-
-  it('test.invoke("test") should return true.', function () {
-    test.invoke("test", (classReflect, parameters) => {
-      return ["1"];
-    }).then(res => assert.equal(res, true))
   });
 
 
