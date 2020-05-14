@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const AbstractMethodDecorator_1 = require("./AbstractMethodDecorator");
 const public_1 = require("./funcs/public");
 const methodReflectCache = new Map();
 class MethodReflect {
@@ -44,6 +45,32 @@ class MethodReflect {
     }
     getOwnTarget() {
         return this.parent.getOwnTarget();
+    }
+    /**
+     * 检测是否包含装饰器
+     * @param decorator
+     */
+    hasDecorator(decorator) {
+        return Boolean(this.metadata.find((d) => {
+            return d instanceof decorator.class;
+        }));
+    }
+    /**
+     * 处理函数调用后的元数据回调
+     * @param classReflect
+     * @param instanceReflect
+     * @param value
+     */
+    async handlerReturn(classReflect, instanceReflect, value) {
+        const metadata = this.metadata;
+        const length = metadata.length;
+        for (let i = 0; i < length; i++) {
+            const methodDecorator = metadata[i];
+            if (methodDecorator instanceof AbstractMethodDecorator_1.AbstractMethodDecorator && typeof methodDecorator.onInvoked === "function") {
+                value = await methodDecorator.onInvoked(this, value);
+            }
+        }
+        return value;
     }
     static create(parent, propertyKey, isStatic = false) {
         // 添加缓存处理

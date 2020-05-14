@@ -3,7 +3,7 @@ import {ParameterReflect} from "./ParameterReflect";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {parseMethodReflectMetadata, parseMethodReflectParameters, parseMethodReflectReturnType} from "./funcs/public";
 import {InstanceReflect} from "./InstanceReflect";
-import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
+import {BaseDecorator, DecoratorFactory} from "../interface";
 
 const methodReflectCache: Map<ClassReflect, Map<string|symbol, MethodReflect>> = new Map();
 
@@ -57,30 +57,23 @@ export class MethodReflect<R extends Function = any> {
   public getTarget() {
     return this.parent.getTarget();
   }
+
   public getOwnTarget() {
     return this.parent.getOwnTarget();
   }
 
-  public mapParameters(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, callback: MethodReflectMapParameterCallback) {
-    const params: any[] = [];
-    const parameters = this.parameters;
-    const length = parameters.length;
-    for(let i = 0; i < length; i++) {
-
-    }
+  /**
+   * 检测是否包含装饰器
+   * @param decorator
+   */
+  public hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean {
+    return Boolean(
+      this.metadata.find((d) => {
+        return d instanceof decorator.class
+      })
+    );
   }
-  public async handlerInject<T>(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, value: T): Promise<T> {
-    const parameters = this.parameters;
-    const length = parameters.length;
 
-    for (let i = 0; i < length; i++) {
-       const parameterReflect = parameters[i];
-       if (parameterReflect instanceof ParameterReflect) {
-         value = await parameterReflect.handlerInject(classReflect, this, instanceReflect, parameterReflect, value);
-       }
-    }
-    return value;
-  }
 
   /**
    * 处理函数调用后的元数据回调
@@ -94,7 +87,7 @@ export class MethodReflect<R extends Function = any> {
     for (let i = 0; i < length; i++) {
       const methodDecorator = metadata[i];
       if (methodDecorator instanceof  AbstractMethodDecorator && typeof methodDecorator.onInvoked === "function") {
-        value = await methodDecorator.onInvoked<T>(classReflect, this, instanceReflect, value);
+        value = await methodDecorator.onInvoked<T>(this, value);
       }
     }
     return value;

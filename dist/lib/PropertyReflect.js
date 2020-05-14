@@ -25,6 +25,20 @@ class PropertyReflect {
     getOwnTarget() {
         return this.parent.getOwnTarget();
     }
+    /**
+     * 检测是否包含装饰器
+     * @param decorator
+     */
+    hasDecorator(decorator) {
+        return Boolean(this.metadata.find((d) => {
+            if (typeof decorator === "function") {
+                return d === decorator.class;
+            }
+            else {
+                return d === decorator;
+            }
+        }));
+    }
     static create(parent, propertyKey, isStatic = false) {
         // 添加缓存处理
         const propertyReflectMaps = propertyReflectCache.get(parent) || new Map();

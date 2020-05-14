@@ -4,25 +4,26 @@ import {PropertyReflect} from "./PropertyReflect";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {ParameterReflect} from "./ParameterReflect";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
+import {InjectMap} from "./InjectMap";
 
 const instanceReflectCache: Map<object, InstanceReflect<any>> = new Map();
 
 export class InstanceReflect<T extends object> {
   public parent: ClassReflect<any>;
   protected constructor(
-    public metadata: T,
+    public instance: T,
   ) {
     // @ts-ignore
-    this.parent = ClassReflect.create(metadata.__proto__);
+    this.parent = ClassReflect.create(instance.__proto__);
   }
 
   /**
    * Get metadata member value.
    * @param fieldName
    */
-  public getField<K extends keyof T>(fieldName: K) {
+  public async getField<K extends keyof T>(fieldName: K): Promise<T[K]> {
     const {parent} = this;
-    let value = this.metadata[fieldName];
+    let value = this.instance[fieldName];
     const propertyReflect = parent.instanceMembers.get(fieldName as string) || parent.staticMembers.get(fieldName as string);
     if (propertyReflect instanceof PropertyReflect) {
       const propertyReflectMetadata = propertyReflect.metadata;
@@ -30,7 +31,7 @@ export class InstanceReflect<T extends object> {
       for (let i = 0; i < length; i++) {
         const metadata = propertyReflect.metadata[i];
         if (typeof metadata.onGetValue === "function") {
-          metadata.onGetValue<T[K]>(parent ,propertyReflect, value);
+          value = await metadata.onGetValue<T[K]>(propertyReflect, value);
         }
       }
     }
@@ -43,7 +44,7 @@ export class InstanceReflect<T extends object> {
    * @param fieldName
    * @param value
    */
-  public setField<K extends keyof T>(fieldName: K, value: T[K]) {
+  public async setField<K extends keyof T>(fieldName: K, value: T[K]) {
     const {parent} = this;
     const propertyReflect = parent.instanceMembers.get(fieldName as string) || parent.staticMembers.get(fieldName as string);
     if (propertyReflect instanceof PropertyReflect) {
@@ -52,11 +53,11 @@ export class InstanceReflect<T extends object> {
       for (let i = 0; i < length; i++) {
         const metadata = propertyReflect.metadata[i];
         if (typeof metadata.onSetValue === "function") {
-          this.metadata[fieldName] = metadata.onSetValue<T[K]>(parent, propertyReflect, value);
+          this.instance[fieldName] = await metadata.onSetValue<T[K]>(propertyReflect, value);
         }
       }
     } else {
-      this.metadata[fieldName] = value;
+      this.instance[fieldName] = value;
     }
   }
 
@@ -65,8 +66,8 @@ export class InstanceReflect<T extends object> {
    * @param memberName 成员名称
    * @param positionalArgumentsCallback 参数
    */
-  public async invoke<K extends keyof T, V>(memberName: K): Promise<void | V> {
-    const func = this.metadata[memberName];
+  public async invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V> {
+    const func = this.instance[memberName];
     const {parent} = this;
 
     // 检测是否为函数
@@ -87,8 +88,11 @@ export class InstanceReflect<T extends object> {
       const parameters = methodReflect.parameters;
       const parameterLength = parameters.length;
       for (let i = 0; i < parameterLength; i++) {
-        let v: any = undefined;
         const parameterReflect: ParameterReflect = parameters[i];
+        let v: any = undefined;
+        if (injectMap instanceof Map) {
+          v = injectMap.get(parameterReflect.type);
+        }
         const prms = parameterReflect.metadata;
         const prmsLength = prms.length;
         for (let a = 0; a < prmsLength; a++) {
@@ -96,33 +100,44 @@ export class InstanceReflect<T extends object> {
           if (ir instanceof AbstractParameterDecorator) {
             // 如果不存在钩子 直接跳出
             if(!(typeof ir.onInject === "function")) return;
-            v = await ir.onInject(parent, methodReflect, this, parameterReflect, v);
+            v = await ir.onInject(parameterReflect, v);
           }
         }
-        args[i] = v;
+        args[parameterReflect.parameterIndex] = v;
       }
-
-      // 执行所有函数
-      value = func.apply(this.metadata, args);
 
       // MethodReflect上的所有装饰器元数据列表
       const methodReflectMetadata = methodReflect.metadata;
       // MethodReflect上的所有装饰器元数据总数
       const mrLength = methodReflectMetadata.length;
 
+      // 方法调用前回调
+      for (let i = 0; i < mrLength; i++) {
+        const methodDecorator = methodReflectMetadata[i];
+        if (methodDecorator instanceof AbstractMethodDecorator) {
+          if (typeof methodDecorator.onBeforeInvoke === "function") {
+            value = await methodDecorator.onBeforeInvoke(methodReflect, injectMap);
+          }
+        }
+      }
+
+      // 执行函数
+      value = func.apply(this.instance, args);
+
       // 遍历方法包含的装饰器
       for (let i = 0; i < mrLength; i++) {
         const methodDecorator = methodReflectMetadata[i];
         if (methodDecorator instanceof AbstractMethodDecorator) {
           if (typeof methodDecorator.onInvoked === "function") {
-            value = await methodDecorator.onInvoked(parent, methodReflect, this, value);
+            value = await methodDecorator.onInvoked(methodReflect, value);
           }
         }
       }
 
+      return value;
+    } else {
+      return func.apply(this.instance, []);
     }
-
-    return func.apply(this.metadata, []);
   }
 
   /**
@@ -130,7 +145,7 @@ export class InstanceReflect<T extends object> {
    * @param other
    */
   public instanceOf<T extends Function>(other: T): boolean {
-    return this.metadata instanceof other;
+    return this.instance instanceof other;
   }
 
   static create<T extends object>(metadata: T): InstanceReflect<T> {

@@ -1,6 +1,7 @@
 import {ClassReflect} from "./ClassReflect";
 import {AbstractPropertyDecorator} from "./AbstractPropertyDecorator";
 import {parsePropertyReflectMetadata, parsePropertyReflectType} from "./funcs/public";
+import {DecoratorFactory} from "../interface";
 
 const propertyReflectCache: Map<ClassReflect, Map<string|symbol, PropertyReflect>> = new Map();
 
@@ -33,6 +34,22 @@ export class PropertyReflect<T extends Function = any> {
 
   public getOwnTarget() {
     return this.parent.getOwnTarget();
+  }
+
+  /**
+   * 检测是否包含装饰器
+   * @param decorator
+   */
+  public hasDecorator<T extends AbstractPropertyDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean {
+    return Boolean(
+      this.metadata.find((d) => {
+        if (typeof  decorator === "function") {
+          return d === decorator.class
+        } else {
+          return  d === decorator
+        }
+      })
+    );
   }
 
   static create<R extends Function = any>(parent: ClassReflect<any>, propertyKey: string | symbol, isStatic: boolean = false): PropertyReflect<R> {

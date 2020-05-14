@@ -1,25 +1,29 @@
 import { BaseConstructor, DecoratorFactory } from "../interface";
 import { ClassSet } from "./ClassSet";
 import { InstanceReflect } from "./InstanceReflect";
-import { MethodReflect } from "./MethodReflect";
 import { ClassReflect } from "./ClassReflect";
+import { AbstractParameterDecorator } from "./AbstractParameterDecorator";
+import { AbstractMethodDecorator } from "./AbstractMethodDecorator";
 /**
  * 抽象类装饰器类
  */
-export declare abstract class AbstractClassDecorator {
+export declare abstract class AbstractClassDecorator<P extends AbstractParameterDecorator = AbstractParameterDecorator, M extends AbstractMethodDecorator = AbstractMethodDecorator> {
     /**
-     * 当被此装饰器装饰的类实例化后 触发
+     * 当被此装饰器装饰的类实例化前触发
+     * 此方法为异步方法 必须返回Promise
+     * 要在这个阶段给子ClassReflect添加好依赖关系，否则子ClassReflect无法得到依赖注入， 使用 `classReflect.provider.set()` 来
+     * 完成提供。
+     *
+     * 要获取到父ClassReflect提供的依赖， 可以使用classReflect.parent来获取，
+     * 不过先要检测 `ClassReflect` 是否存在 parent
+     */
+    onTargetBeforeInstance?(classReflect: ClassReflect): Promise<void>;
+    /**
+     * 当被此装饰器装饰的类实例化后触发
+     * @param classReflect 当前类的 类映射对象
      * @param instanceReflect 类实例化后的 实例反射对象
-     * @param classReflect 当前类的 类映射对象
      */
-    onNewInstanced?<T extends object>(classReflect: ClassReflect, instance: InstanceReflect<T>): void;
-    /**
-     * 当被此装饰器装饰的类实例化时 触发
-     * 不支持异步
-     * @param classReflect 当前类的 类映射对象
-     * @param methodReflect 构造函数的函数反射对象
-     */
-    onNewInstance?<R extends Function>(classReflect: ClassReflect, methodReflect: MethodReflect<R>): void;
+    onTargetInstanced?<T extends object>(classReflect: ClassReflect, instanceReflect: InstanceReflect<T>): void;
     static create<P extends any[], T extends ClassDecoratorConstructor<P>>(IDecorator: ClassDecoratorConstructor<P> & T): DecoratorFactory<P, ClassDecorator, T>;
     private static _targets;
     /**

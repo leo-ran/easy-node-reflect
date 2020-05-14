@@ -5,6 +5,7 @@ import {MethodMap} from "./MethodMap";
 import {MethodReflect} from "./MethodReflect";
 import {InstanceReflect} from "./InstanceReflect";
 import {ClassReflect} from "./ClassReflect";
+import {InjectMap} from "./InjectMap";
 /**
  * 抽象方法装饰器类
  */
@@ -24,14 +25,19 @@ export abstract class AbstractMethodDecorator<T = any> {
   }
 
   /**
+   * 当此方法装饰器 装饰的方法 被调用前触发
+   * @param methodReflect 方法反射
+   * @param injectMap 注入的服务
+   */
+  public onBeforeInvoke?(methodReflect: MethodReflect, injectMap: InjectMap):Promise<void>;
+  /**
    * 当此方法装饰器 装饰的方法 被调用后触发
    * 在此处可以针对函数的返回值做类型检测 或返回值更新
-   * 支持异步 返回 `Promise`
    * @param methodReflect 方法元数据映射
    * @param value 该方法运行后的返回值
    * @return T 返回新的value
    */
-  public onInvoked?<V>(classReflect: ClassReflect, methodReflect: MethodReflect<any>, instanceReflect: InstanceReflect<any>,value: V): V | Promise<V>;
+  public async onInvoked?<V>(methodReflect: MethodReflect<any>, value: V): Promise<V>;
 
   static create<
     P extends any[],

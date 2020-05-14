@@ -1,26 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const InstanceReflect_1 = require("./InstanceReflect");
-const MethodReflect_1 = require("./MethodReflect");
+const AbstractClassDecorator_1 = require("./AbstractClassDecorator");
 const public_1 = require("./funcs/public");
 const classReflectCache = new Map();
 /**
  * 类反射
  */
 class ClassReflect {
+    /**
+     * @param _target 目标类
+     * @param parent 父ClassReflect
+     */
     constructor(_target, parent) {
         this._target = _target;
         this.parent = parent;
-        /**
-         * 公开提供的服务
-         * 公开提供的服务子ClassReflect可以直接访问和继承
-         */
-        this._publicProvider = new Map();
-        /**
-         * 私有提供服务
-         * 私有提供服务只提供给当前ClassReflect 子ClassReflect不能访问和继承
-         */
-        this._privateProvider = new Map();
         /**
          * 元数据列表
          */
@@ -33,52 +27,32 @@ class ClassReflect {
          * 静态成员映射
          */
         this.staticMembers = new Map();
+        /**
+         * 提供给子Reflect的服务
+         */
+        this._provider = new Map();
         // 解析元数据
         public_1.parseClassReflectMetadata(this);
         // 解析实例成员装饰器
         public_1.parseClassReflectInstanceMembers(this);
         // 解析静态成员装饰器
         public_1.parseClassReflectStaticMembers(this);
-        /**
-         * 继承父类提供的服务
-         */
-        if (parent && parent instanceof ClassReflect) {
-            parent._publicProvider.forEach((value, key) => {
-                this._publicProvider.set(key, value);
-            });
+    }
+    /**
+     * 获取构造函数的reflect
+     */
+    get constructorMethodReflect() {
+        return (this.instanceMembers.get("constructor"));
+    }
+    getProvider(key) {
+        const value = this._provider.get(key);
+        if (!value && this.parent) {
+            return this.parent.getProvider(key);
         }
+        return value;
     }
-    /**
-     * 获取公共服务
-     * @param key
-     */
-    getPublicProvider(key) {
-        return this._publicProvider.get(key);
-    }
-    /**
-     * 获取私有服务
-     * @param key
-     */
-    getPrivateProvider(key) {
-        return this._publicProvider.get(key);
-    }
-    /**
-     * 设置公共服务
-     * @param key
-     * @param value
-     */
-    setPublicProvider(key, value) {
-        this._publicProvider.set(key, value);
-        return this;
-    }
-    /**
-     * 设置私有服务
-     * @param key
-     * @param value
-     */
-    setPrivateProvider(key, value) {
-        this._publicProvider.set(key, value);
-        return this;
+    setProvider(key, value) {
+        this._provider.set(key, value);
     }
     /**
      * 获取 `ClassReflect` 的目标
@@ -105,30 +79,57 @@ class ClassReflect {
         return this._target.prototype.name;
     }
     /**
-     * target 实例化
-     * @param callback
+     * 检测是否包含装饰器
+     * @param decorator
      */
-    newInstance(callback) {
-        let positionalArguments = [];
-        this.metadata.forEach(item => {
-            if (typeof item.onNewInstance === "function") {
-                // 实例化前 给装饰器 传递实例
-                const methodReflect = this.instanceMembers.get("constructor");
-                if (methodReflect instanceof MethodReflect_1.MethodReflect) {
-                    // 执行实例前的钩子
-                    item.onNewInstance(this, methodReflect);
-                    positionalArguments = callback(this, methodReflect.parameters);
-                }
+    hasDecorator(decorator) {
+        return Boolean(this.metadata.find((d) => {
+            if (typeof decorator === "function") {
+                return d === decorator.class;
             }
-        });
-        const instanceReflect = InstanceReflect_1.InstanceReflect.create(Reflect.construct(this._target, positionalArguments));
-        this.metadata.forEach(item => {
-            if (typeof item.onNewInstanced === "function") {
-                // 实例化后 给装饰器 传递实例
-                item.onNewInstanced(this, instanceReflect);
+            else {
+                return d === decorator;
             }
+        }));
+    }
+    /**
+     * 实例化当前目标类
+     * 此方法为异步创建，考虑到同步创建 无法注入一些异步的驱动
+     */
+    async newInstance() {
+        const classDecorators = this.metadata;
+        const classDecoratorLength = classDecorators.length;
+        // 循环初始依赖
+        for (let i = 0; i < classDecoratorLength; i++) {
+            const classDecorator = classDecorators[i];
+            if (classDecorator instanceof AbstractClassDecorator_1.AbstractClassDecorator && typeof classDecorator.onTargetBeforeInstance === "function") {
+                await classDecorator.onTargetBeforeInstance(this);
+            }
+        }
+        const positionalArguments = [];
+        // 获取构造函数反色对象
+        const { constructorMethodReflect } = this;
+        const parameters = constructorMethodReflect.parameters;
+        const parameterLength = parameters.length;
+        for (let i = 0; i < parameterLength; i++) {
+            const parameterReflect = parameters[i];
+            // 获取服务里提供的对应服务作为注入的value值
+            // 注入顺序为
+            let value = this.getProvider(parameterReflect.type);
+            // 使用参数装饰器钩子
+            value = await parameterReflect.handlerInject(value);
+            // 注入到参数中
+            positionalArguments[parameterReflect.parameterIndex] = value;
+        }
+        // 得到实例
+        const instance = InstanceReflect_1.InstanceReflect.create(Reflect.construct(this._target, positionalArguments));
+        // 通知所有的类装饰器 实例创建完毕
+        this.metadata.forEach((classDecorator) => {
+            if (typeof classDecorator.onTargetInstanced === "function")
+                classDecorator.onTargetInstanced(this, instance);
         });
-        return instanceReflect;
+        // 返回实例
+        return instance;
     }
     /**
      * 父类反射

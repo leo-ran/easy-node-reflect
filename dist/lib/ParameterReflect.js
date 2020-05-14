@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
 const public_1 = require("./funcs/public");
 const parameterReflectCache = new Map();
 class ParameterReflect {
@@ -25,6 +26,39 @@ class ParameterReflect {
     }
     getOwnTarget() {
         return this.parent.getOwnTarget();
+    }
+    /**
+     * 处理注入钩子回调
+     * @param classReflect
+     * @param methodReflect
+     * @param instanceReflect
+     * @param parameterReflect
+     * @param value
+     */
+    async handlerInject(value) {
+        const length = this.metadata.length;
+        const metadata = this.metadata;
+        for (let i = 0; i < length; i++) {
+            const parameterDecorator = metadata[i];
+            if (parameterDecorator instanceof AbstractParameterDecorator_1.AbstractParameterDecorator && typeof parameterDecorator.onInject === "function") {
+                value = await parameterDecorator.onInject(this, value);
+            }
+        }
+        return value;
+    }
+    /**
+     * 检测是否包含装饰器
+     * @param decorator
+     */
+    hasDecorator(decorator) {
+        return Boolean(this.metadata.find((d) => {
+            if (typeof decorator === "function") {
+                return d === decorator.class;
+            }
+            else {
+                return d === decorator;
+            }
+        }));
     }
     static create(parent, type, propertyKey, parameterIndex) {
         const parameterReflectMaps = parameterReflectCache.get(parent) || new Map();

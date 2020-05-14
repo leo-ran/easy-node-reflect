@@ -1,25 +1,26 @@
 import { ClassReflect } from "./ClassReflect";
+import { InjectMap } from "./InjectMap";
 export declare class InstanceReflect<T extends object> {
-    metadata: T;
+    instance: T;
     parent: ClassReflect<any>;
-    protected constructor(metadata: T);
+    protected constructor(instance: T);
     /**
      * Get metadata member value.
      * @param fieldName
      */
-    getField<K extends keyof T>(fieldName: K): T[K];
+    getField<K extends keyof T>(fieldName: K): Promise<T[K]>;
     /**
      * In metadata member set member value.
      * @param fieldName
      * @param value
      */
-    setField<K extends keyof T>(fieldName: K, value: T[K]): void;
+    setField<K extends keyof T>(fieldName: K, value: T[K]): Promise<void>;
     /**
      * 调用实例方法
      * @param memberName 成员名称
      * @param positionalArgumentsCallback 参数
      */
-    invoke<K extends keyof T, V>(memberName: K): Promise<void | V>;
+    invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V>;
     /**
      * 比较实例类型
      * @param other

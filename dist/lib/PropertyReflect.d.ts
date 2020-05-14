@@ -1,5 +1,6 @@
 import { ClassReflect } from "./ClassReflect";
 import { AbstractPropertyDecorator } from "./AbstractPropertyDecorator";
+import { DecoratorFactory } from "../interface";
 export declare class PropertyReflect<T extends Function = any> {
     parent: ClassReflect<any>;
     propertyKey: string | symbol;
@@ -11,6 +12,11 @@ export declare class PropertyReflect<T extends Function = any> {
     get metadata(): AbstractPropertyDecorator[];
     getTarget(): any;
     getOwnTarget(): unknown;
+    /**
+     * 检测是否包含装饰器
+     * @param decorator
+     */
+    hasDecorator<T extends AbstractPropertyDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean;
     static create<R extends Function = any>(parent: ClassReflect<any>, propertyKey: string | symbol, isStatic?: boolean): PropertyReflect<R>;
 }
 /**

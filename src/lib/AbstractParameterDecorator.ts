@@ -21,7 +21,7 @@ export abstract class AbstractParameterDecorator {
    * @param parameterReflect
    * @param value
    */
-  public async onInject?<T>(classReflect: ClassReflect, methodReflect: MethodReflect, instanceReflect: InstanceReflect<any> | null, parameterReflect: ParameterReflect, value: T): Promise<T>;
+  public async onInject?<T>(parameterReflect: ParameterReflect, value: T): Promise<T>;
 
   public parameterIndex?: number;
   public propertyKey?: string | symbol;

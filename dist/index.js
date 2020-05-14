@@ -27,3 +27,5 @@ __export(require("./lib/TargetMap"));
 __export(require("./lib/MethodMap"));
 __export(require("./lib/ParameterMap"));
 __export(require("./lib/PropertyMap"));
+__export(require("./lib/InjectMap"));
+``;

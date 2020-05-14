@@ -1,8 +1,7 @@
 import {MethodReflect} from "./MethodReflect";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {parseParameterMetadata} from "./funcs/public";
-import {ClassReflect} from "./ClassReflect";
-import {InstanceReflect} from "./InstanceReflect";
+import {DecoratorFactory} from "../interface";
 
 const parameterReflectCache: Map<MethodReflect, Map<number, ParameterReflect>> = new Map();
 
@@ -44,16 +43,32 @@ export class ParameterReflect<T = any> {
    * @param parameterReflect
    * @param value
    */
-  public async handlerInject<T>(classReflect: ClassReflect, methodReflect: MethodReflect, instanceReflect: InstanceReflect<any> | null, value: T): Promise<T> {
+  public async handlerInject<T>(value: T): Promise<T> {
     const length = this.metadata.length;
     const metadata = this.metadata;
     for (let i = 0; i < length; i++) {
       const parameterDecorator = metadata[i]
       if (parameterDecorator instanceof AbstractParameterDecorator && typeof parameterDecorator.onInject === "function") {
-        value = await parameterDecorator.onInject<T>(classReflect, methodReflect,instanceReflect, this, value);
+        value = await parameterDecorator.onInject<T>(this, value);
       }
     }
     return value;
+  }
+
+  /**
+   * 检测是否包含装饰器
+   * @param decorator
+   */
+  public hasDecorator<T extends AbstractParameterDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean {
+    return Boolean(
+      this.metadata.find((d) => {
+        if (typeof  decorator === "function") {
+          return d === decorator.class
+        } else {
+          return  d === decorator
+        }
+      })
+    );
   }
 
   static create<T = any>(
