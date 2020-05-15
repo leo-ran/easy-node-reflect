@@ -107,33 +107,14 @@ export class InstanceReflect<T extends object> {
         args[parameterReflect.parameterIndex] = v;
       }
 
-      // MethodReflect上的所有装饰器元数据列表
-      const methodReflectMetadata = methodReflect.metadata;
-      // MethodReflect上的所有装饰器元数据总数
-      const mrLength = methodReflectMetadata.length;
-
-      // 方法调用前回调
-      for (let i = 0; i < mrLength; i++) {
-        const methodDecorator = methodReflectMetadata[i];
-        if (methodDecorator instanceof AbstractMethodDecorator) {
-          if (typeof methodDecorator.onBeforeInvoke === "function") {
-            value = await methodDecorator.onBeforeInvoke(methodReflect, injectMap);
-          }
-        }
-      }
+      // 处理注入
+      await methodReflect.handlerBeforeInvoke(injectMap);
 
       // 执行函数
       value = func.apply(this.instance, args);
 
-      // 遍历方法包含的装饰器
-      for (let i = 0; i < mrLength; i++) {
-        const methodDecorator = methodReflectMetadata[i];
-        if (methodDecorator instanceof AbstractMethodDecorator) {
-          if (typeof methodDecorator.onInvoked === "function") {
-            value = await methodDecorator.onInvoked(methodReflect, value);
-          }
-        }
-      }
+      // 处理返回值
+      value = await methodReflect.handlerReturn(value)
 
       return value;
     } else {

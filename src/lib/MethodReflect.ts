@@ -4,6 +4,7 @@ import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {parseMethodReflectMetadata, parseMethodReflectParameters, parseMethodReflectReturnType} from "./funcs/public";
 import {InstanceReflect} from "./InstanceReflect";
 import {BaseDecorator, DecoratorFactory} from "../interface";
+import {InjectMap} from "./InjectMap";
 
 const methodReflectCache: Map<ClassReflect, Map<string|symbol, MethodReflect>> = new Map();
 
@@ -74,6 +75,38 @@ export class MethodReflect<R extends Function = any> {
     );
   }
 
+  /**
+   * 查找是否有包含 `type` 的参数
+   * @param type
+   */
+  public hasType(type: object): boolean {
+    return Boolean(
+      this.parameters.find(item => item.type === type)
+    );
+  }
+
+  /**
+   * 查找是否包含 `decorator` 装饰器
+   * @param decorator
+   */
+  public hasParameterDecorator(decorator: DecoratorFactory<any, any, any>): boolean {
+    return Boolean(
+      this.parameters.find((p) => {
+        return p.metadata.find(d => d instanceof decorator.class)
+      })
+    );
+  }
+
+  public async handlerBeforeInvoke(injectMap: InjectMap) {
+    const metadata = this.metadata;
+    const length = metadata.length;
+    for (let i = 0; i < length; i++) {
+      const methodDecorator = metadata[i];
+      if (methodDecorator instanceof  AbstractMethodDecorator && typeof methodDecorator.onBeforeInvoke === "function") {
+        await methodDecorator.onBeforeInvoke(this, injectMap);
+      }
+    }
+  }
 
   /**
    * 处理函数调用后的元数据回调
@@ -81,7 +114,7 @@ export class MethodReflect<R extends Function = any> {
    * @param instanceReflect
    * @param value
    */
-  public async handlerReturn<T>(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, value: T): Promise<T> {
+  public async handlerReturn<T>(value: T): Promise<T> {
     const metadata = this.metadata;
     const length = metadata.length;
     for (let i = 0; i < length; i++) {
