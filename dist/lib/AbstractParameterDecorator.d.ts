@@ -2,6 +2,7 @@ import { DecoratorFactory } from "../interface";
 import { ParameterSet } from "./ParameterSet";
 import { ParameterMap } from "./ParameterMap";
 import { ParameterReflect } from "./ParameterReflect";
+import { InjectMap } from "./InjectMap";
 /**
  * 抽象参数装饰器类
  */
@@ -14,7 +15,7 @@ export declare abstract class AbstractParameterDecorator {
      * @param parameterReflect
      * @param value
      */
-    onInject?<T>(parameterReflect: ParameterReflect, value: T): Promise<T>;
+    onInject?<T>(parameterReflect: ParameterReflect, injectMap: InjectMap, value: T): Promise<T>;
     parameterIndex?: number;
     propertyKey?: string | symbol;
     setPropertyKey(propertyKey: string | symbol): this;

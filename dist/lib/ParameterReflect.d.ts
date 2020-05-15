@@ -1,6 +1,7 @@
 import { MethodReflect } from "./MethodReflect";
 import { AbstractParameterDecorator } from "./AbstractParameterDecorator";
 import { DecoratorFactory } from "../interface";
+import { InjectMap } from "./InjectMap";
 export declare class ParameterReflect<T = any> {
     parent: MethodReflect;
     type: T;
@@ -20,7 +21,7 @@ export declare class ParameterReflect<T = any> {
      * @param parameterReflect
      * @param value
      */
-    handlerInject<T>(value: T): Promise<T>;
+    handlerInject<T>(injectMap: InjectMap, value: T): Promise<T>;
     /**
      * 检测是否包含装饰器
      * @param decorator

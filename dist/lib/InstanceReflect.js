@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ClassReflect_1 = require("./ClassReflect");
 const MethodReflect_1 = require("./MethodReflect");
 const PropertyReflect_1 = require("./PropertyReflect");
-const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
 const instanceReflectCache = new Map();
 class InstanceReflect {
     constructor(instance) {
@@ -85,18 +84,8 @@ class InstanceReflect {
                     // 如果injectMap中不存在注入的服务，从classReflect中查找服务
                     v = injectMap.get(parameterReflect.type) || parent.getProvider(parameterReflect.type);
                 }
-                const prms = parameterReflect.metadata;
-                const prmsLength = prms.length;
-                for (let a = 0; a < prmsLength; a++) {
-                    const ir = prms[a];
-                    if (ir instanceof AbstractParameterDecorator_1.AbstractParameterDecorator) {
-                        // 如果不存在钩子 直接跳出
-                        if (!(typeof ir.onInject === "function"))
-                            return;
-                        v = await ir.onInject(parameterReflect, v);
-                    }
-                }
-                args[parameterReflect.parameterIndex] = v;
+                // 优化代码结构
+                args[parameterReflect.parameterIndex] = await parameterReflect.handlerInject(injectMap, v) || v;
             }
             // 处理注入
             await methodReflect.handlerBeforeInvoke(injectMap);

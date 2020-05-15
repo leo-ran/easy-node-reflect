@@ -35,13 +35,13 @@ class ParameterReflect {
      * @param parameterReflect
      * @param value
      */
-    async handlerInject(value) {
+    async handlerInject(injectMap, value) {
         const length = this.metadata.length;
         const metadata = this.metadata;
         for (let i = 0; i < length; i++) {
             const parameterDecorator = metadata[i];
             if (parameterDecorator instanceof AbstractParameterDecorator_1.AbstractParameterDecorator && typeof parameterDecorator.onInject === "function") {
-                value = await parameterDecorator.onInject(this, value);
+                value = await parameterDecorator.onInject(this, injectMap, value);
             }
         }
         return value;

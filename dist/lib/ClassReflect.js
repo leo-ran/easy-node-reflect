@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const InstanceReflect_1 = require("./InstanceReflect");
 const AbstractClassDecorator_1 = require("./AbstractClassDecorator");
 const public_1 = require("./funcs/public");
+const InjectMap_1 = require("./InjectMap");
 const classReflectCache = new Map();
 /**
  * 类反射
@@ -128,7 +129,7 @@ class ClassReflect {
             // 注入顺序为
             let value = this.getProvider(parameterReflect.type);
             // 使用参数装饰器钩子
-            value = await parameterReflect.handlerInject(value);
+            value = await parameterReflect.handlerInject(InjectMap_1.InjectMap.from(this._provider), value);
             // 注入到参数中
             positionalArguments[parameterReflect.parameterIndex] = value;
         }
