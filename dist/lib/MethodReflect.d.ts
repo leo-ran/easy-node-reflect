@@ -1,8 +1,8 @@
 import { ClassReflect } from "./ClassReflect";
 import { ParameterReflect } from "./ParameterReflect";
 import { AbstractMethodDecorator } from "./AbstractMethodDecorator";
-import { InstanceReflect } from "./InstanceReflect";
 import { DecoratorFactory } from "../interface";
+import { InjectMap } from "./InjectMap";
 export declare class MethodReflect<R extends Function = any> {
     parent: ClassReflect<any>;
     propertyKey: string | symbol;
@@ -30,12 +30,23 @@ export declare class MethodReflect<R extends Function = any> {
      */
     hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean;
     /**
+     * 查找是否有包含 `type` 的参数
+     * @param type
+     */
+    hasType(type: object): boolean;
+    /**
+     * 查找是否包含 `decorator` 装饰器
+     * @param decorator
+     */
+    hasParameterDecorator(decorator: DecoratorFactory<any, any, any>): boolean;
+    handlerBeforeInvoke(injectMap: InjectMap): Promise<void>;
+    /**
      * 处理函数调用后的元数据回调
      * @param classReflect
      * @param instanceReflect
      * @param value
      */
-    handlerReturn<T>(classReflect: ClassReflect, instanceReflect: InstanceReflect<any>, value: T): Promise<T>;
+    handlerReturn<T>(value: T): Promise<T>;
     static create<R extends Function = any>(parent: ClassReflect<any>, propertyKey: string | symbol, isStatic?: boolean): MethodReflect<R>;
 }
 export interface MethodReflectMapParameterCallback<T = any> {

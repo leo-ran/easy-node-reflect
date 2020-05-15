@@ -56,12 +56,38 @@ class MethodReflect {
         }));
     }
     /**
+     * 查找是否有包含 `type` 的参数
+     * @param type
+     */
+    hasType(type) {
+        return Boolean(this.parameters.find(item => item.type === type));
+    }
+    /**
+     * 查找是否包含 `decorator` 装饰器
+     * @param decorator
+     */
+    hasParameterDecorator(decorator) {
+        return Boolean(this.parameters.find((p) => {
+            return p.metadata.find(d => d instanceof decorator.class);
+        }));
+    }
+    async handlerBeforeInvoke(injectMap) {
+        const metadata = this.metadata;
+        const length = metadata.length;
+        for (let i = 0; i < length; i++) {
+            const methodDecorator = metadata[i];
+            if (methodDecorator instanceof AbstractMethodDecorator_1.AbstractMethodDecorator && typeof methodDecorator.onBeforeInvoke === "function") {
+                await methodDecorator.onBeforeInvoke(this, injectMap);
+            }
+        }
+    }
+    /**
      * 处理函数调用后的元数据回调
      * @param classReflect
      * @param instanceReflect
      * @param value
      */
-    async handlerReturn(classReflect, instanceReflect, value) {
+    async handlerReturn(value) {
         const metadata = this.metadata;
         const length = metadata.length;
         for (let i = 0; i < length; i++) {
