@@ -34,9 +34,25 @@ export declare class ClassReflect<T extends BaseConstructor = any> {
     /**
      * 提供给子Reflect的服务
      */
-    private _provider;
-    getProvider<K extends object, V extends object>(key: K): V | undefined;
-    setProvider<K extends object, V extends object>(key: K, value: V): void;
+    private _publicProvider;
+    /**
+     * 提供给当前类的服务
+     */
+    private _privateProvider;
+    /**
+     * 查找服务
+     * @param key 服务的key
+     * @param type 'private' | 'public'
+     * 'private' 能查找自己的服务/私有服务，和从父ClassReflect的_publicProvider中查找依赖
+     */
+    getProvider<K extends object, V extends object>(key: K, type?: 'private' | 'public'): V | undefined;
+    /**
+     * 设置服务
+     * @param key 服务的key
+     * @param value 'private' | 'public'
+     * 设置为 private 只能提供给当前类 不能提供给子ClassReflect
+     */
+    setProvider<K extends object, V extends object>(key: K, value: V, type?: 'private' | 'public'): this;
     /**
      * 获取 `ClassReflect` 的目标
      */

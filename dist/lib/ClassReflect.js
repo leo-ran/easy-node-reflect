@@ -30,7 +30,11 @@ class ClassReflect {
         /**
          * 提供给子Reflect的服务
          */
-        this._provider = new Map();
+        this._publicProvider = new Map();
+        /**
+         * 提供给当前类的服务
+         */
+        this._privateProvider = new Map();
         // 解析元数据
         public_1.parseClassReflectMetadata(this);
         // 解析实例成员装饰器
@@ -44,15 +48,33 @@ class ClassReflect {
     get constructorMethodReflect() {
         return (this.instanceMembers.get("constructor"));
     }
-    getProvider(key) {
-        const value = this._provider.get(key);
+    /**
+     * 查找服务
+     * @param key 服务的key
+     * @param type 'private' | 'public'
+     * 'private' 能查找自己的服务/私有服务，和从父ClassReflect的_publicProvider中查找依赖
+     */
+    getProvider(key, type = 'public') {
+        const value = (type === 'private' ? (this._publicProvider.get(key) || this._privateProvider.get(key)) : this._publicProvider.get(key));
         if (!value && this.parent) {
             return this.parent.getProvider(key);
         }
         return value;
     }
-    setProvider(key, value) {
-        this._provider.set(key, value);
+    /**
+     * 设置服务
+     * @param key 服务的key
+     * @param value 'private' | 'public'
+     * 设置为 private 只能提供给当前类 不能提供给子ClassReflect
+     */
+    setProvider(key, value, type = 'public') {
+        if (type === 'private') {
+            this._privateProvider.set(key, value);
+        }
+        else {
+            this._publicProvider.set(key, value);
+        }
+        return this;
     }
     /**
      * 获取 `ClassReflect` 的目标
