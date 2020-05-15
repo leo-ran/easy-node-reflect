@@ -68,7 +68,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
    * @param _extends 是否继承父级服务提供
    */
   public getProvider<K extends object, V extends object>(key: K, _extends?: boolean): V | undefined {
-    const value: V = this.getProvider(key) as V;
+    const value: V = this._provider.get(key) as V;
     // 如果继承父级服务提供则 递归父级服务
     if (!value && this.parent && _extends) {
       return this.parent.getProvider<K, V>(key, _extends);
