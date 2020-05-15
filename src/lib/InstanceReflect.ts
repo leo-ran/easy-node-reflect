@@ -101,7 +101,8 @@ export class InstanceReflect<T extends object> {
           if (ir instanceof AbstractParameterDecorator) {
             // 如果不存在钩子 直接跳出
             if(!(typeof ir.onInject === "function")) return;
-            v = await ir.onInject(parameterReflect, v);
+            // 添加injectMap 如果根据类型匹配的参数不合适，则参数装饰器可以自行选择自己需要的参数
+            v = await ir.onInject(parameterReflect, injectMap, v);
           }
         }
         args[parameterReflect.parameterIndex] = v;

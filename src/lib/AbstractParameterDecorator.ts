@@ -7,6 +7,7 @@ import {ParameterReflect} from "./ParameterReflect";
 import {ClassReflect} from "./ClassReflect";
 import {MethodReflect} from "./MethodReflect";
 import {InstanceReflect} from "./InstanceReflect";
+import {InjectMap} from "./InjectMap";
 
 /**
  * 抽象参数装饰器类
@@ -21,7 +22,7 @@ export abstract class AbstractParameterDecorator {
    * @param parameterReflect
    * @param value
    */
-  public async onInject?<T>(parameterReflect: ParameterReflect, value: T): Promise<T>;
+  public async onInject?<T>(parameterReflect: ParameterReflect, injectMap: InjectMap, value: T): Promise<T>;
 
   public parameterIndex?: number;
   public propertyKey?: string | symbol;
