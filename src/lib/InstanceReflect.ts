@@ -91,7 +91,8 @@ export class InstanceReflect<T extends object> {
         const parameterReflect: ParameterReflect = parameters[i];
         let v: any = undefined;
         if (injectMap instanceof Map) {
-          v = injectMap.get(parameterReflect.type);
+          // 如果injectMap中不存在注入的服务，从classReflect中查找服务
+          v = injectMap.get(parameterReflect.type) || parent.getProvider(parameterReflect.type);
         }
         const prms = parameterReflect.metadata;
         const prmsLength = prms.length;
