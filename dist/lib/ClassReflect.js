@@ -50,7 +50,7 @@ class ClassReflect {
      * @param _extends 是否继承父级服务提供
      */
     getProvider(key, _extends) {
-        const value = this.getProvider(key);
+        const value = this._provider.get(key);
         // 如果继承父级服务提供则 递归父级服务
         if (!value && this.parent && _extends) {
             return this.parent.getProvider(key, _extends);
