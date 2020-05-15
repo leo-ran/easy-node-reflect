@@ -2,6 +2,7 @@ import {MethodReflect} from "./MethodReflect";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {parseParameterMetadata} from "./funcs/public";
 import {DecoratorFactory} from "../interface";
+import {InjectMap} from "./InjectMap";
 
 const parameterReflectCache: Map<MethodReflect, Map<number, ParameterReflect>> = new Map();
 
@@ -43,13 +44,13 @@ export class ParameterReflect<T = any> {
    * @param parameterReflect
    * @param value
    */
-  public async handlerInject<T>(value: T): Promise<T> {
+  public async handlerInject<T>(injectMap: InjectMap, value: T): Promise<T> {
     const length = this.metadata.length;
     const metadata = this.metadata;
     for (let i = 0; i < length; i++) {
       const parameterDecorator = metadata[i]
       if (parameterDecorator instanceof AbstractParameterDecorator && typeof parameterDecorator.onInject === "function") {
-        value = await parameterDecorator.onInject<T>(this, value);
+        value = await parameterDecorator.onInject<T>(this, injectMap, value);
       }
     }
     return value;

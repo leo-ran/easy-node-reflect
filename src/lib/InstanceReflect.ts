@@ -94,18 +94,8 @@ export class InstanceReflect<T extends object> {
           // 如果injectMap中不存在注入的服务，从classReflect中查找服务
           v = injectMap.get(parameterReflect.type) || parent.getProvider(parameterReflect.type);
         }
-        const prms = parameterReflect.metadata;
-        const prmsLength = prms.length;
-        for (let a = 0; a < prmsLength; a++) {
-          const ir = prms[a];
-          if (ir instanceof AbstractParameterDecorator) {
-            // 如果不存在钩子 直接跳出
-            if(!(typeof ir.onInject === "function")) return;
-            // 添加injectMap 如果根据类型匹配的参数不合适，则参数装饰器可以自行选择自己需要的参数
-            v = await ir.onInject(parameterReflect, injectMap, v);
-          }
-        }
-        args[parameterReflect.parameterIndex] = v;
+        // 优化代码结构
+        args[parameterReflect.parameterIndex] = await parameterReflect.handlerInject(injectMap, v) || v;
       }
 
       // 处理注入

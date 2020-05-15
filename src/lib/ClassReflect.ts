@@ -156,7 +156,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
       // 注入顺序为
       let value = this.getProvider(parameterReflect.type);
       // 使用参数装饰器钩子
-      value = await parameterReflect.handlerInject(value);
+      value = await parameterReflect.handlerInject(InjectMap.from(this._provider), value);
       // 注入到参数中
       positionalArguments[parameterReflect.parameterIndex] = value;
     }
