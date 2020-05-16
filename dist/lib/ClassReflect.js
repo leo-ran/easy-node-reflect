@@ -98,7 +98,7 @@ class ClassReflect {
     hasDecorator(decorator) {
         return Boolean(this.metadata.find((d) => {
             if (typeof decorator === "function") {
-                return d === decorator.class;
+                return d instanceof decorator.class;
             }
         }));
     }
