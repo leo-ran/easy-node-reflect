@@ -35,7 +35,7 @@ export abstract class AbstractClassDecorator<
    * @param classReflect 当前类的 类映射对象
    * @param instanceReflect 类实例化后的 实例反射对象
    */
-  public onTargetInstanced?<T extends object>(classReflect: ClassReflect, instanceReflect: InstanceReflect<T>): void;
+  public onTargetInstanced?<T extends object>(classReflect: ClassReflect, instanceReflect: InstanceReflect<T>): void | Promise<void>;
 
   static create<
     P extends any[],

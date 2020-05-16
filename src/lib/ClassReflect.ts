@@ -163,9 +163,12 @@ export class ClassReflect<T extends BaseConstructor = any> {
       Reflect.construct(this._target, positionalArguments)
     );
     // 通知所有的类装饰器 实例创建完毕
-    this.metadata.forEach((classDecorator) => {
-      if (typeof classDecorator.onTargetInstanced === "function") classDecorator.onTargetInstanced(this, instance);
-    })
+    for (let i = 0; i < classDecoratorLength; i++) {
+      const classDecorator = classDecorators[i];
+      if (classDecorator instanceof  AbstractClassDecorator && typeof classDecorator.onTargetInstanced === "function") {
+        await classDecorator.onTargetInstanced(this, instance);
+      }
+    }
     // 返回实例
     return instance;
   }
