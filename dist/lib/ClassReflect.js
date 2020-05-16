@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClassReflect = void 0;
 const InstanceReflect_1 = require("./InstanceReflect");
 const AbstractClassDecorator_1 = require("./AbstractClassDecorator");
 const public_1 = require("./funcs/public");
@@ -133,10 +134,12 @@ class ClassReflect {
         // 得到实例
         const instance = InstanceReflect_1.InstanceReflect.create(Reflect.construct(this._target, positionalArguments));
         // 通知所有的类装饰器 实例创建完毕
-        this.metadata.forEach((classDecorator) => {
-            if (typeof classDecorator.onTargetInstanced === "function")
-                classDecorator.onTargetInstanced(this, instance);
-        });
+        for (let i = 0; i < classDecoratorLength; i++) {
+            const classDecorator = classDecorators[i];
+            if (classDecorator instanceof AbstractClassDecorator_1.AbstractClassDecorator && typeof classDecorator.onTargetInstanced === "function") {
+                await classDecorator.onTargetInstanced(this, instance);
+            }
+        }
         // 返回实例
         return instance;
     }

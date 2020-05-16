@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reflectProperty = exports.PropertyReflect = void 0;
 const public_1 = require("./funcs/public");
 const propertyReflectCache = new Map();
 class PropertyReflect {

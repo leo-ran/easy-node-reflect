@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reflectMethod = exports.MethodReflect = void 0;
 const AbstractMethodDecorator_1 = require("./AbstractMethodDecorator");
 const public_1 = require("./funcs/public");
 const methodReflectCache = new Map();

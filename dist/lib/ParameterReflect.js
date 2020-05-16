@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reflectParameter = exports.ParameterReflect = void 0;
 const AbstractParameterDecorator_1 = require("./AbstractParameterDecorator");
 const public_1 = require("./funcs/public");
 const parameterReflectCache = new Map();

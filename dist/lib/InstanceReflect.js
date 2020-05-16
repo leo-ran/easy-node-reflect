@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reflectInstance = exports.InstanceReflect = void 0;
 const ClassReflect_1 = require("./ClassReflect");
 const MethodReflect_1 = require("./MethodReflect");
 const PropertyReflect_1 = require("./PropertyReflect");

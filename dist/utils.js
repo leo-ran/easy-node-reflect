@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.iDebuglog = void 0;
 function iDebuglog(value, module, title) {
     console.log(`--------------------DEBUG-----------------------`);
     if (title) {

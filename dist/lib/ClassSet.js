@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClassSet = void 0;
 class ClassSet extends Set {
     toArray() {
         return Array.from(this);
