@@ -121,7 +121,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
     return Boolean(
       this.metadata.find((d) => {
         if (typeof  decorator === "function") {
-          return d === decorator.class
+          return d instanceof decorator.class
         }
       })
     );
