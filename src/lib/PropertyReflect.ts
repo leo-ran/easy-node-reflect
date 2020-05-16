@@ -40,13 +40,11 @@ export class PropertyReflect<T extends Function = any> {
    * 检测是否包含装饰器
    * @param decorator
    */
-  public hasDecorator<T extends AbstractPropertyDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean {
+  public hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean {
     return Boolean(
       this.metadata.find((d) => {
         if (typeof  decorator === "function") {
-          return d === decorator.class
-        } else {
-          return  d === decorator
+          return d instanceof decorator.class
         }
       })
     );

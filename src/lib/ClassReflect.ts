@@ -117,13 +117,11 @@ export class ClassReflect<T extends BaseConstructor = any> {
    * 检测是否包含装饰器
    * @param decorator
    */
-  public hasDecorator<T extends AbstractClassDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean {
+  public hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean {
     return Boolean(
       this.metadata.find((d) => {
         if (typeof  decorator === "function") {
           return d === decorator.class
-        } else {
-          return  d === decorator
         }
       })
     );
