@@ -99,9 +99,6 @@ class ClassReflect {
             if (typeof decorator === "function") {
                 return d === decorator.class;
             }
-            else {
-                return d === decorator;
-            }
         }));
     }
     /**

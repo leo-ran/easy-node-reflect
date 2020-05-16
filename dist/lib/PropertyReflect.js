@@ -32,10 +32,7 @@ class PropertyReflect {
     hasDecorator(decorator) {
         return Boolean(this.metadata.find((d) => {
             if (typeof decorator === "function") {
-                return d === decorator.class;
-            }
-            else {
-                return d === decorator;
+                return d instanceof decorator.class;
             }
         }));
     }

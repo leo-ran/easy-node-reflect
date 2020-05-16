@@ -66,7 +66,7 @@ export declare class ClassReflect<T extends BaseConstructor = any> {
      * 检测是否包含装饰器
      * @param decorator
      */
-    hasDecorator<T extends AbstractClassDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean;
+    hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean;
     /**
      * 实例化当前目标类
      * 此方法为异步创建，考虑到同步创建 无法注入一些异步的驱动

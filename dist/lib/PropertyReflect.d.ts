@@ -16,7 +16,7 @@ export declare class PropertyReflect<T extends Function = any> {
      * 检测是否包含装饰器
      * @param decorator
      */
-    hasDecorator<T extends AbstractPropertyDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean;
+    hasDecorator(decorator: DecoratorFactory<any, any, any>): boolean;
     static create<R extends Function = any>(parent: ClassReflect<any>, propertyKey: string | symbol, isStatic?: boolean): PropertyReflect<R>;
 }
 /**
