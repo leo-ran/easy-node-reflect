@@ -26,19 +26,15 @@ class PropertyReflect {
     getOwnTarget() {
         return this.parent.getOwnTarget();
     }
-    /**
-     * 检测是否包含装饰器
-     * @param decorator
-     */
     hasDecorator(decorator) {
         return Boolean(this.metadata.find((d) => {
             if (typeof decorator === "function") {
                 return d instanceof decorator.class;
             }
+            return undefined;
         }));
     }
     static create(parent, propertyKey, isStatic = false) {
-        // 添加缓存处理
         const propertyReflectMaps = propertyReflectCache.get(parent) || new Map();
         const propertyReflect = propertyReflectMaps.get(propertyKey) || new PropertyReflect(parent, propertyKey, isStatic);
         propertyReflectMaps.set(propertyKey, propertyReflect);
@@ -47,14 +43,10 @@ class PropertyReflect {
     }
 }
 exports.PropertyReflect = PropertyReflect;
-/**
- * 属性映射
- * @param classReflect 类元数据映射对象
- * @param key 属性的名称
- */
 function reflectProperty(classReflect, key) {
     const maps = propertyReflectCache.get(classReflect);
     if (maps)
         return maps.get(key);
+    return undefined;
 }
 exports.reflectProperty = reflectProperty;

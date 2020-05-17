@@ -15,7 +15,6 @@ class ParameterReflect {
         this._metadata = value;
     }
     get metadata() {
-        // 懒加载 缓存处理
         if (!this._metadata) {
             this._metadata = [];
             public_1.parseParameterMetadata(this);
@@ -28,11 +27,6 @@ class ParameterReflect {
     getOwnTarget() {
         return this.parent.getOwnTarget();
     }
-    /**
-     * 处理注入钩子回调
-     * @param injectMap
-     * @param value
-     */
     async handlerInject(injectMap, value) {
         const length = this.metadata.length;
         const metadata = this.metadata;
@@ -42,23 +36,17 @@ class ParameterReflect {
                 value = await parameterDecorator.onInject(this, injectMap, value);
             }
         }
-        // 添加类型转换 将参数转换成自定义的类型
-        // @ts-ignore
         if (typeof this.type === "object" && typeof this.type.__transform === "function") {
-            // @ts-ignore
             this.type.__transform(value);
         }
         return value;
     }
-    /**
-     * 检测是否包含装饰器
-     * @param decorator
-     */
     hasDecorator(decorator) {
         return Boolean(this.metadata.find((d) => {
             if (typeof decorator === "function") {
                 return d instanceof decorator.class;
             }
+            return undefined;
         }));
     }
     static create(parent, type, propertyKey, parameterIndex) {
@@ -70,14 +58,10 @@ class ParameterReflect {
     }
 }
 exports.ParameterReflect = ParameterReflect;
-/**
- * 参数映射
- * @param methodReflect 方法元数据映射对象
- * @param index 参数的序号
- */
 function reflectParameter(methodReflect, index) {
     const maps = parameterReflectCache.get(methodReflect);
     if (maps)
         return maps.get(index);
+    return undefined;
 }
 exports.reflectParameter = reflectParameter;

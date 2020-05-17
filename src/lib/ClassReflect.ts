@@ -123,6 +123,7 @@ export class ClassReflect<T extends BaseConstructor = any> {
         if (typeof  decorator === "function") {
           return d instanceof decorator.class
         }
+        return undefined;
       })
     );
   }

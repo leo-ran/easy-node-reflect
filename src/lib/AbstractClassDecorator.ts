@@ -4,16 +4,11 @@ import {MethodSet} from "./MethodSet";
 import {ClassSet} from "./ClassSet";
 import {InstanceReflect} from "./InstanceReflect";
 import {ClassReflect} from "./ClassReflect";
-import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
-import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 
 /**
  * 抽象类装饰器类
  */
-export abstract class AbstractClassDecorator<
-  P extends AbstractParameterDecorator = AbstractParameterDecorator,
-  M extends AbstractMethodDecorator = AbstractMethodDecorator
-  > {
+export abstract class AbstractClassDecorator {
 
   /**
    * 当被此装饰器装饰的类实例化前触发

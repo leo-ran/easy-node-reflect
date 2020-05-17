@@ -147,4 +147,5 @@ export interface MethodReflectMapParameterCallback<T = any> {
 export function reflectMethod<T extends Function = any>(classReflect: ClassReflect, key: string | symbol): MethodReflect<T> | undefined {
   const maps = methodReflectCache.get(classReflect);
   if (maps) return maps.get(key);
+  return undefined;
 }

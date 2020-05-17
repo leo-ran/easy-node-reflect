@@ -46,6 +46,7 @@ export class PropertyReflect<T extends Function = any> {
         if (typeof  decorator === "function") {
           return d instanceof decorator.class
         }
+        return undefined;
       })
     );
   }
@@ -69,4 +70,5 @@ export class PropertyReflect<T extends Function = any> {
 export function reflectProperty<T extends Function = any>(classReflect: ClassReflect, key: string | symbol): PropertyReflect<T> | undefined {
   const maps = propertyReflectCache.get(classReflect);
   if (maps) return maps.get(key);
+  return undefined;
 }

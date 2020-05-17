@@ -123,6 +123,7 @@ export abstract class AbstractParameterDecorator {
         return parameterMap as ParameterMap<I, ParameterSet<AbstractParameterDecorator>>;
       }
     }
+    return undefined;
   }
 
   /**
@@ -134,6 +135,7 @@ export abstract class AbstractParameterDecorator {
     if (methodMap instanceof MethodMap) {
       return methodMap.keys();
     }
+    return undefined;
   }
 }
 

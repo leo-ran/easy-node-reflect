@@ -5,10 +5,7 @@ const ParameterSet_1 = require("./ParameterSet");
 const TargetMap_1 = require("./TargetMap");
 const ParameterMap_1 = require("./ParameterMap");
 const MethodMap_1 = require("./MethodMap");
-/**
- * 抽象参数装饰器类
- */
-let AbstractParameterDecorator = /** @class */ (() => {
+let AbstractParameterDecorator = (() => {
     class AbstractParameterDecorator {
         setPropertyKey(propertyKey) {
             this.propertyKey = propertyKey;
@@ -20,7 +17,6 @@ let AbstractParameterDecorator = /** @class */ (() => {
         static create(IDecorator) {
             function decorator(...args) {
                 return (target, propertyKey, parameterIndex) => {
-                    // 定义元数据
                     const metadata = Reflect.construct(IDecorator, args);
                     metadata.setParameterIndex(parameterIndex);
                     metadata.setPropertyKey(propertyKey);
@@ -53,16 +49,14 @@ let AbstractParameterDecorator = /** @class */ (() => {
                     return parameterMap;
                 }
             }
+            return undefined;
         }
-        /**
-         * 根据目标类获取拥有参数装饰器的方法成员名称
-         * @param target
-         */
         static getPropertyKeys(target) {
             const methodMap = AbstractParameterDecorator._targets.get(target);
             if (methodMap instanceof MethodMap_1.MethodMap) {
                 return methodMap.keys();
             }
+            return undefined;
         }
     }
     AbstractParameterDecorator._targets = new TargetMap_1.TargetMap();

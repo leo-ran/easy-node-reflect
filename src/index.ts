@@ -26,6 +26,6 @@ export * from "./lib/TargetMap";
 export * from "./lib/MethodMap";
 export * from "./lib/ParameterMap";
 export * from "./lib/PropertyMap";
-export * from "./lib/InjectMap";``
+export * from "./lib/InjectMap";
 
 export * from "./interface";

@@ -65,10 +65,11 @@ export class ParameterReflect<T = any> {
    */
   public hasDecorator<T extends AbstractParameterDecorator>(decorator: T | DecoratorFactory<any, any, any>): boolean {
     return Boolean(
-      this.metadata.find((d) => {
+      this.metadata.find((d: AbstractParameterDecorator) => {
         if (typeof  decorator === "function") {
           return d instanceof decorator.class
         }
+        return undefined;
       })
     );
   }
@@ -95,8 +96,9 @@ export class ParameterReflect<T = any> {
 export function reflectParameter<T = any>(methodReflect: MethodReflect, index: number): ParameterReflect<T> | undefined {
   const maps = parameterReflectCache.get(methodReflect);
   if (maps) return maps.get(index);
+  return undefined;
 }
 
 export interface MapParameterDecoratorCallback {
-  <T>(parameterReflect: ParameterReflect): void;
+  (parameterReflect: ParameterReflect): void;
 }

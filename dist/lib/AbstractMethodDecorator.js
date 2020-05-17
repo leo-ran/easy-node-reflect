@@ -4,10 +4,7 @@ exports.AbstractMethodDecorator = void 0;
 const TargetMap_1 = require("./TargetMap");
 const MethodSet_1 = require("./MethodSet");
 const MethodMap_1 = require("./MethodMap");
-/**
- * 抽象方法装饰器类
- */
-let AbstractMethodDecorator = /** @class */ (() => {
+let AbstractMethodDecorator = (() => {
     class AbstractMethodDecorator {
         setDescriptor(descriptor) {
             this.descriptor = descriptor;
@@ -20,7 +17,6 @@ let AbstractMethodDecorator = /** @class */ (() => {
         static create(IDecorator) {
             function decorator(...args) {
                 return (target, propertyKey, descriptor) => {
-                    // 定义元数据
                     const metadata = Reflect.construct(IDecorator, args);
                     metadata.setPropertyKey(propertyKey);
                     metadata.setDescriptor(descriptor);
@@ -30,12 +26,6 @@ let AbstractMethodDecorator = /** @class */ (() => {
             decorator.class = IDecorator;
             return decorator;
         }
-        /**
-         * 根据目标类 定义元数据
-         * @param target 目标类
-         * @param metadata 元数据
-         * @param propertyKey 目标类的成员方法名称
-         */
         static defineMetadata(target, metadata, propertyKey) {
             const methodMap = AbstractMethodDecorator._targets.get(target) || new MethodMap_1.MethodMap();
             const methodSet = methodMap.get(propertyKey) || new MethodSet_1.MethodSet();
@@ -43,11 +33,6 @@ let AbstractMethodDecorator = /** @class */ (() => {
             methodMap.set(propertyKey, methodSet);
             AbstractMethodDecorator._targets.set(target, methodMap);
         }
-        /**
-         * 根据目标类获取 方法装饰器的元数据集合
-         * @param target
-         * @param propertyKey
-         */
         static getMetadata(target, propertyKey) {
             const methodMap = AbstractMethodDecorator._targets.get(target);
             if (methodMap instanceof MethodMap_1.MethodMap) {
@@ -58,15 +43,12 @@ let AbstractMethodDecorator = /** @class */ (() => {
             }
             return undefined;
         }
-        /**
-         * 根据目标类获取方法装饰器的成员方法名称
-         * @param target
-         */
         static getPropertyKeys(target) {
             const methodMap = AbstractMethodDecorator._targets.get(target);
             if (methodMap instanceof MethodMap_1.MethodMap) {
                 return methodMap.keys();
             }
+            return undefined;
         }
     }
     AbstractMethodDecorator._targets = new TargetMap_1.TargetMap();

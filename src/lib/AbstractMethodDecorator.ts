@@ -105,6 +105,7 @@ export abstract class AbstractMethodDecorator<T = any> {
     if (methodMap instanceof MethodMap) {
       return methodMap.keys();
     }
+    return undefined;
   }
 }
 

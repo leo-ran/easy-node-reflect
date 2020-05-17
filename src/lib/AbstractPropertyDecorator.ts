@@ -98,6 +98,7 @@ export abstract class AbstractPropertyDecorator  {
     if (propertyMap instanceof PropertyMap) {
       return propertyMap.keys();
     }
+    return undefined;
   }
 }
 

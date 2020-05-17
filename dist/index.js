@@ -11,15 +11,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-// 类装饰器
 __exportStar(require("./lib/AbstractClassDecorator"), exports);
-// 属性装饰器
 __exportStar(require("./lib/AbstractPropertyDecorator"), exports);
-// 方法装饰器
 __exportStar(require("./lib/AbstractMethodDecorator"), exports);
-// 参数装饰器
 __exportStar(require("./lib/AbstractParameterDecorator"), exports);
-// `class`元数据反射类
 __exportStar(require("./lib/ClassReflect"), exports);
 __exportStar(require("./lib/PropertyReflect"), exports);
 __exportStar(require("./lib/ParameterReflect"), exports);
@@ -35,5 +30,4 @@ __exportStar(require("./lib/MethodMap"), exports);
 __exportStar(require("./lib/ParameterMap"), exports);
 __exportStar(require("./lib/PropertyMap"), exports);
 __exportStar(require("./lib/InjectMap"), exports);
-``;
 __exportStar(require("./interface"), exports);
