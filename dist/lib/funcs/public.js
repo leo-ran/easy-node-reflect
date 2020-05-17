@@ -142,7 +142,7 @@ exports.parseMethodReflectReturnType = parseMethodReflectReturnType;
  * @param parameterReflect
  */
 function parseParameterMetadata(parameterReflect) {
-    const parameterSet = AbstractParameterDecorator_1.AbstractParameterDecorator.getMetadata(parameterReflect.getTarget(), parameterReflect.propertyKey, parameterReflect.parameterIndex);
+    const parameterSet = AbstractParameterDecorator_1.AbstractParameterDecorator.getMetadata(parameterReflect.getOwnTarget(), parameterReflect.propertyKey, parameterReflect.parameterIndex);
     if (parameterSet instanceof ParameterSet_1.ParameterSet) {
         parameterReflect.metadata = Array.from(parameterSet);
     }
