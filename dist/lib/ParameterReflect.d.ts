@@ -15,10 +15,7 @@ export declare class ParameterReflect<T = any> {
     getOwnTarget(): unknown;
     /**
      * 处理注入钩子回调
-     * @param classReflect
-     * @param methodReflect
-     * @param instanceReflect
-     * @param parameterReflect
+     * @param injectMap
      * @param value
      */
     handlerInject<T>(injectMap: InjectMap, value: T): Promise<T>;

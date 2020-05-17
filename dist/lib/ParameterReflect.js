@@ -30,10 +30,7 @@ class ParameterReflect {
     }
     /**
      * 处理注入钩子回调
-     * @param classReflect
-     * @param methodReflect
-     * @param instanceReflect
-     * @param parameterReflect
+     * @param injectMap
      * @param value
      */
     async handlerInject(injectMap, value) {

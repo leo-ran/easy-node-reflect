@@ -9,9 +9,6 @@ import { InjectMap } from "./InjectMap";
 export declare abstract class AbstractParameterDecorator {
     /**
      * 注入参数时的回调
-     * @param classReflect
-     * @param methodReflect
-     * @param instanceReflect
      * @param parameterReflect
      * @param value
      */

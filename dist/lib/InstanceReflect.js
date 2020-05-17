@@ -9,7 +9,7 @@ class InstanceReflect {
     constructor(instance) {
         this.instance = instance;
         // @ts-ignore
-        this.parent = ClassReflect_1.ClassReflect.create(instance.__proto__);
+        this.parent = ClassReflect_1.ClassReflect.create(instance.constructor);
     }
     /**
      * Get metadata member value.
@@ -56,7 +56,6 @@ class InstanceReflect {
     /**
      * 调用实例方法
      * @param memberName 成员名称
-     * @param positionalArgumentsCallback 参数
      */
     async invoke(memberName, injectMap) {
         const func = this.instance[memberName];

@@ -18,7 +18,6 @@ export declare class InstanceReflect<T extends object> {
     /**
      * 调用实例方法
      * @param memberName 成员名称
-     * @param positionalArgumentsCallback 参数
      */
     invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V>;
     /**
