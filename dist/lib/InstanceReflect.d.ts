@@ -18,8 +18,10 @@ export declare class InstanceReflect<T extends object> {
     /**
      * 调用实例方法
      * @param memberName 成员名称
+     * @param injectMap 注入的参数 map
+     * @param memberType 成员类型 默认实例
      */
-    invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V>;
+    invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap, memberType?: "static" | "instance"): Promise<void | V>;
     /**
      * 比较实例类型
      * @param other

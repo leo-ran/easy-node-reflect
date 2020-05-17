@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>InstanceReflect | @easy-node/reflect - v0.0.23</title>
-	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.23">
+	<title>InstanceReflect | @easy-node/reflect - v0.0.24</title>
+	<meta name="description" content="Documentation for @easy-node/reflect - v0.0.24">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@easy-node/reflect - v0.0.23</a>
+					<a href="../index.html" class="title">@easy-node/reflect - v0.0.24</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -177,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in src/lib/InstanceReflect.ts:117</li>
+									<li>Defined in src/lib/InstanceReflect.ts:119</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,13 +207,13 @@
 					<a name="invoke" class="tsd-anchor"></a>
 					<h3>invoke</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">invoke&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>memberName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, injectMap<span class="tsd-signature-symbol">: </span><a href="injectmap.html" class="tsd-signature-type">InjectMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">invoke&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>memberName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, injectMap<span class="tsd-signature-symbol">: </span><a href="injectmap.html" class="tsd-signature-type">InjectMap</a>, memberType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"static"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"instance"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in src/lib/InstanceReflect.ts:66</li>
+									<li>Defined in src/lib/InstanceReflect.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,6 +240,15 @@
 								</li>
 								<li>
 									<h5>injectMap: <a href="injectmap.html" class="tsd-signature-type">InjectMap</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>注入的参数 map</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> memberType: <span class="tsd-signature-type">"static"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"instance"</span><span class="tsd-signature-symbol"> = &quot;instance&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>成员类型 默认实例</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -295,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in src/lib/InstanceReflect.ts:121</li>
+									<li>Defined in src/lib/InstanceReflect.ts:123</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
