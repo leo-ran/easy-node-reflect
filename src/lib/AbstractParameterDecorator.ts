@@ -4,9 +4,6 @@ import {TargetMap} from "./TargetMap";
 import {ParameterMap} from "./ParameterMap";
 import {MethodMap} from "./MethodMap";
 import {ParameterReflect} from "./ParameterReflect";
-import {ClassReflect} from "./ClassReflect";
-import {MethodReflect} from "./MethodReflect";
-import {InstanceReflect} from "./InstanceReflect";
 import {InjectMap} from "./InjectMap";
 
 /**
@@ -16,9 +13,6 @@ export abstract class AbstractParameterDecorator {
 
   /**
    * 注入参数时的回调
-   * @param classReflect
-   * @param methodReflect
-   * @param instanceReflect
    * @param parameterReflect
    * @param value
    */

@@ -1,9 +1,7 @@
 import {ClassReflect} from "./ClassReflect";
 import {MethodReflect} from "./MethodReflect";
 import {PropertyReflect} from "./PropertyReflect";
-import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {ParameterReflect} from "./ParameterReflect";
-import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {InjectMap} from "./InjectMap";
 
 const instanceReflectCache: Map<object, InstanceReflect<any>> = new Map();
@@ -14,7 +12,7 @@ export class InstanceReflect<T extends object> {
     public instance: T,
   ) {
     // @ts-ignore
-    this.parent = ClassReflect.create(instance.__proto__);
+    this.parent = ClassReflect.create(instance.constructor);
   }
 
   /**
@@ -64,7 +62,6 @@ export class InstanceReflect<T extends object> {
   /**
    * 调用实例方法
    * @param memberName 成员名称
-   * @param positionalArgumentsCallback 参数
    */
   public async invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V> {
     const func = this.instance[memberName];

@@ -2,8 +2,7 @@ import {ClassReflect} from "./ClassReflect";
 import {ParameterReflect} from "./ParameterReflect";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
 import {parseMethodReflectMetadata, parseMethodReflectParameters, parseMethodReflectReturnType} from "./funcs/public";
-import {InstanceReflect} from "./InstanceReflect";
-import {BaseDecorator, DecoratorFactory} from "../interface";
+import {DecoratorFactory} from "../interface";
 import {InjectMap} from "./InjectMap";
 
 const methodReflectCache: Map<ClassReflect, Map<string|symbol, MethodReflect>> = new Map();

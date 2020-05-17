@@ -3,8 +3,6 @@ import {TargetMap} from "./TargetMap";
 import {MethodSet} from "./MethodSet";
 import {MethodMap} from "./MethodMap";
 import {MethodReflect} from "./MethodReflect";
-import {InstanceReflect} from "./InstanceReflect";
-import {ClassReflect} from "./ClassReflect";
 import {InjectMap} from "./InjectMap";
 /**
  * 抽象方法装饰器类

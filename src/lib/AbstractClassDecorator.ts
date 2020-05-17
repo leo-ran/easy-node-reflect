@@ -3,13 +3,9 @@ import {TargetMap} from "./TargetMap";
 import {MethodSet} from "./MethodSet";
 import {ClassSet} from "./ClassSet";
 import {InstanceReflect} from "./InstanceReflect";
-import {MethodReflect} from "./MethodReflect";
 import {ClassReflect} from "./ClassReflect";
-import {ParameterReflect} from "./ParameterReflect";
 import {AbstractParameterDecorator} from "./AbstractParameterDecorator";
 import {AbstractMethodDecorator} from "./AbstractMethodDecorator";
-import {PropertyReflect} from "./PropertyReflect";
-import {InjectMap} from "./InjectMap";
 
 /**
  * 抽象类装饰器类

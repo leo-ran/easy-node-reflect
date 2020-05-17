@@ -3,7 +3,6 @@ import {TargetMap} from "./TargetMap";
 import {PropertySet} from "./PropertySet";
 import {PropertyMap} from "./PropertyMap";
 import {PropertyReflect} from "./PropertyReflect";
-import {ClassReflect} from "./ClassReflect";
 
 /**
  * 抽象属性装饰器类
@@ -12,7 +11,6 @@ export abstract class AbstractPropertyDecorator  {
 
   /**
    * 当此属性装饰器 被装饰的属性设置属性值时 触发
-   * @param classReflect 属性所在类的元数据映射
    * @param propertyReflect 属性元数据映射
    * @param value 设置的值
    */
@@ -20,7 +18,6 @@ export abstract class AbstractPropertyDecorator  {
 
   /**
    * 当此属性装饰器 被装饰的属性获取属性值时 触发
-   * @param classReflect 属性所在类的元数据映射
    * @param propertyReflect 属性元数据映射
    * @param value 设置的值
    */
