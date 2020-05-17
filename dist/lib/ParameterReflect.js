@@ -36,8 +36,8 @@ class ParameterReflect {
                 value = await parameterDecorator.onInject(this, injectMap, value);
             }
         }
-        if (typeof this.type === "object" && typeof this.type.__transform === "function") {
-            this.type.__transform(value);
+        if (typeof this.type === "function" && typeof this.type.__transform === "function") {
+            value = this.type.__transform(value);
         }
         return value;
     }

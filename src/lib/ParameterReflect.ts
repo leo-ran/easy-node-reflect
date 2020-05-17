@@ -52,9 +52,9 @@ export class ParameterReflect<T = any> {
     }
     // 添加类型转换 将参数转换成自定义的类型
     // @ts-ignore
-    if (typeof this.type === "object" && typeof this.type.__transform === "function") {
+    if (typeof this.type === "function" && typeof this.type.__transform === "function") {
       // @ts-ignore
-      this.type.__transform(value);
+      value = this.type.__transform(value);
     }
     return value;
   }
