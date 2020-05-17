@@ -62,8 +62,10 @@ export class InstanceReflect<T extends object> {
   /**
    * 调用实例方法
    * @param memberName 成员名称
+   * @param injectMap 注入的参数 map
+   * @param memberType 成员类型 默认实例
    */
-  public async invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap): Promise<void | V> {
+  public async invoke<K extends keyof T, V>(memberName: K, injectMap: InjectMap, memberType: "static" | "instance" = "instance"): Promise<void | V> {
     const func = this.instance[memberName];
     const {parent} = this;
 
@@ -73,7 +75,7 @@ export class InstanceReflect<T extends object> {
     if (!parent) throw new Error(`This reflect is not parent.`);
 
     // 获取方法的反射对象
-    const methodReflect = parent.instanceMembers.get(<string>memberName) || parent.staticMembers.get(<string>memberName);
+    const methodReflect = memberType === "instance" ? parent.instanceMembers.get(<string>memberName) : parent.staticMembers.get(<string>memberName);
     // 判断反射对象是否存在
     if (methodReflect instanceof MethodReflect) {
       // 函数调用时的参数列表

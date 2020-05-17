@@ -50,6 +50,12 @@ export class ParameterReflect<T = any> {
         value = await parameterDecorator.onInject<T>(this, injectMap, value);
       }
     }
+    // 添加类型转换 将参数转换成自定义的类型
+    // @ts-ignore
+    if (typeof this.type === "object" && typeof this.type.__transform === "function") {
+      // @ts-ignore
+      this.type.__transform(value);
+    }
     return value;
   }
 
