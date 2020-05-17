@@ -182,7 +182,7 @@ export function parseMethodReflectReturnType(methodReflect: MethodReflect): void
  */
 export function parseParameterMetadata(parameterReflect: ParameterReflect) {
   const parameterSet = AbstractParameterDecorator.getMetadata(
-    parameterReflect.getTarget(),
+    <object>parameterReflect.getOwnTarget(),
     parameterReflect.propertyKey,
     parameterReflect.parameterIndex,
   );
